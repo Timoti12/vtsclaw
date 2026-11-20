@@ -1,4 +1,4 @@
-[README (2).md](https://github.com/user-attachments/files/35161069/README.2.md)
+[README (2).md](https://github.com/user-attachments/files/35161086/README.2.md)
 # VTS-CLAW
 
 Visual Thinking Strategy untuk Literasi Kritis dan Menulis Akademik.
