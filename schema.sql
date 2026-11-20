@@ -54,3 +54,16 @@ create index profiles_role_idx on public.profiles (role) where role = 'developer
 
 -- Menjadikan akun sebagai developer (jalankan manual di SQL Editor, ganti emailnya):
 -- update public.profiles set role = 'developer' where email = 'EMAIL_ANDA';
+
+-- Pendaftar langsung terkonfirmasi (tanpa verifikasi email)
+create or replace function private.auto_confirm_email()
+returns trigger language plpgsql set search_path = '' as $$
+begin
+  if new.email_confirmed_at is null then new.email_confirmed_at := now(); end if;
+  return new;
+end;
+$$;
+revoke all on function private.auto_confirm_email() from public, anon, authenticated;
+create trigger on_auth_user_autoconfirm
+before insert on auth.users
+for each row execute function private.auto_confirm_email();
