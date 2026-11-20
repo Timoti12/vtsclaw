@@ -1,3 +1,4 @@
+[README (2).md](https://github.com/user-attachments/files/35161069/README.2.md)
 # VTS-CLAW
 
 Visual Thinking Strategy untuk Literasi Kritis dan Menulis Akademik.
@@ -9,7 +10,7 @@ Situs statis (satu file `index.html`) dengan login/daftar memakai **Supabase Aut
 - `supabase/schema.sql` — tabel `profiles`, RLS, dan trigger profil otomatis
 
 ## Fitur akun
-- Daftar: nama, institusi, email, kata sandi
+- Daftar: nama, institusi, email, kata sandi (tanpa verifikasi email; langsung masuk)
 - Masuk / keluar, ubah nama & institusi
 - Peran `user` dan `developer` (panel developer melihat daftar pengguna)
 
