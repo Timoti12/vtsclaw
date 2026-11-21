@@ -231,7 +231,7 @@ footer{background:#3a0620}
 .place{position:relative;border-radius:32px 32px 0 0;background:#6a1438}
 .place .ph{position:relative;aspect-ratio:4/3;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:22px;background:linear-gradient(160deg,#a33a68,#3d0020)}
 .place .ph .pt{position:relative;z-index:1;font-size:1.35rem;font-weight:700;line-height:1.2;color:#FFFFE3;text-shadow:0 2px 10px rgba(30,0,15,.6)}
-.place .ph .ps{position:relative;z-index:1;font-size:.95rem;color:#FFFFE3;opacity:.92}
+.place .ph .pk{text-align:left;position:relative;z-index:1;font-size:.95rem;color:#FFFFE3;opacity:.92}
 .places{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 @media (max-width:820px){.places{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -323,7 +323,7 @@ function home(){
  '<section class="sec stats"><div class="wrap"><div class="charts2">'+ring(3,'Kompetensi Utama','Kritis, Aksi, dan Realistis','#rps')+ring(7,'Tahapan Sintaks','Alur langkah Visual Thinking Strategy','#observasi-visual')+ring(9,'Bab Modul Mahasiswa','Panduan menulis akademik berbasis literasi kritis','#materi')+'</div></div></section>'+
  '<section class="sec"><div class="wrap"><h2 class="sh">Mengenal VTS-CLAW</h2><div id="sl" role="region" aria-roledescription="carousel" aria-label="Mengenal VTS-CLAW"><div id="slc" class="ctrack"></div><div class="dots" id="dots"></div></div></div></section>'+
  '<section class="sec alt"><div class="wrap"><h2 class="sh c">Tempat Penelitian</h2><div class="places">'+
- CAMPUS.map(function(c){return '<div class="place"><div class="ph">'+imgTag('pbg',c.img,'Kampus '+c.n)+'<div class="pov"></div><div class="pt">'+c.n+'</div><div class="ps">'+c.k+'</div></div><p>'+c.d+'</p></div>'}).join('')+
+ CAMPUS.map(function(c){return '<div class="place"><div class="ph">'+imgTag('pbg',c.img,'Kampus '+c.n)+'<div class="pov"></div><div class="pt">'+c.n+'</div><div class="pk">'+c.k+'</div></div><p>'+c.d+'</p></div>'}).join('')+
  '</div></div></section>';
 }
 var carTimers=[];
