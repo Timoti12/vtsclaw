@@ -251,6 +251,12 @@ footer{background:#3a0620}
 .av.lg.has{width:150px;height:150px}
 .av img{width:100%;height:100%;object-fit:cover;display:block}
 .prow .av.has{width:84px;height:84px}
+
+/* ===== Animasi logo di banner pertama ===== */
+.h2in.hv{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:36px;align-items:center}
+.hvid{border-radius:28px;overflow:hidden;background:#EFE9DA;box-shadow:0 18px 44px rgba(20,0,10,.5);border:1px solid rgba(255,255,227,.35);aspect-ratio:16/9}
+.hvid video{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:900px){.h2in.hv{grid-template-columns:1fr;gap:20px}.hvid{order:-1;max-width:520px}.hs{padding-top:110px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -330,7 +336,7 @@ var CAMPUS=[
  {n:'Universitas Muhammadiyah Prof. Dr. HAMKA (UHAMKA)',k:'Jakarta',img:'uhamka.jpg',d:'Salah satu lokasi pelaksanaan penelitian VTS-CLAW.'},
  {n:'Universitas Indraprasta PGRI (UNINDRA)',k:'Jakarta',img:'unindra.jpg',d:'Salah satu lokasi pelaksanaan penelitian VTS-CLAW.'}
 ];
-var HS=[{t:'Selamat datang di VTS-CLAW',d:'Model pembelajaran literasi kritis berbasis Visual Thinking Strategy untuk menulis akademik.',g:'radial-gradient(circle at 80% 20%,rgba(224,165,38,.28),transparent 45%),linear-gradient(135deg,#7d1a46,#3d0020)'}].concat(CAMPUS.map(function(c,i){
+var HS=[{video:'vts-claw-intro.mp4',poster:'vts-claw-intro.jpg',t:'Selamat datang di VTS-CLAW',d:'Model pembelajaran literasi kritis berbasis Visual Thinking Strategy untuk menulis akademik.',g:'radial-gradient(circle at 80% 20%,rgba(224,165,38,.28),transparent 45%),linear-gradient(135deg,#7d1a46,#3d0020)'}].concat(CAMPUS.map(function(c,i){
  var gs=['radial-gradient(circle at 15% 85%,rgba(224,165,38,.22),transparent 45%),linear-gradient(160deg,#6b0f3a,#2e0018)','radial-gradient(circle at 85% 80%,rgba(224,165,38,.25),transparent 45%),linear-gradient(120deg,#5a1236,#33001a)','radial-gradient(circle at 20% 15%,rgba(224,165,38,.22),transparent 45%),linear-gradient(145deg,#8a2250,#400022)','radial-gradient(circle at 70% 50%,rgba(224,165,38,.25),transparent 50%),linear-gradient(135deg,#660033,#2a0015)','radial-gradient(circle at 30% 70%,rgba(224,165,38,.22),transparent 45%),linear-gradient(150deg,#7a1b48,#380019)'];
  return {t:c.n,d:'Lokasi penelitian · '+c.k+'. '+c.d,g:gs[i%gs.length],img:c.img,alt:'Kampus '+c.n};
 }));
@@ -367,7 +373,7 @@ function carousel(track,dots,ms){
 function initCarousels(){
  carTimers.forEach(clearInterval);carTimers=[];
  var ht=document.getElementById('htrack');
- if(ht){ht.innerHTML=HS.map(function(s){return '<div class="hs" style="background:'+s.g+'">'+(s.img?imgTag('hbg',s.img,s.alt)+'<div class="hov"></div>':'')+'<div class="h2in"><h1>'+s.t.replace(/VTS-CLAW/g,'<span style="white-space:nowrap">VTS-CLAW</span>')+'</h1><p>'+s.d+'</p><a class="btn" href="#materi">Mulai belajar</a></div></div>'}).join('');carousel(ht,document.getElementById('h2dots'),6000)}
+ if(ht){ht.innerHTML=HS.map(function(s){return '<div class="hs" style="background:'+s.g+'">'+(s.img?imgTag('hbg',s.img,s.alt)+'<div class="hov"></div>':'')+'<div class="h2in'+(s.video?' hv':'')+'"><div class="htxt"><h1>'+s.t.replace(/VTS-CLAW/g,'<span style="white-space:nowrap">VTS-CLAW</span>')+'</h1><p>'+s.d+'</p><a class="btn" href="#materi">Mulai belajar</a></div>'+(s.video?'<div class="hvid"><video src="'+s.video+'" poster="'+s.poster+'" autoplay muted loop playsinline preload="auto" aria-label="Animasi logo VTS-CLAW" onerror="this.parentNode.remove()"></video></div>':'')+'</div></div>'}).join('');carousel(ht,document.getElementById('h2dots'),6000);if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){ht.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause()})}}
  var st=document.getElementById('slc');
  if(st){st.innerHTML=SLIDES.map(function(s){var ext=s.x?' target="_blank" rel="noopener"':'';return '<div class="cslide"><div class="slide"><div><p class="src">'+s.src+'</p><h3>'+s.t+'</h3><p>'+s.d+'</p><a class="btn" href="'+s.h+'"'+ext+'>Selengkapnya</a></div><div class="shot"><b>'+s.src+'</b>'+(s.x?'<a class="btn" href="'+s.h+'" target="_blank" rel="noopener">'+s.b+'</a>':'')+'</div></div></div>'}).join('');carousel(st,document.getElementById('dots'),7000)}
 }
