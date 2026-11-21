@@ -340,6 +340,24 @@ footer{background:#3a0620}
 .plb .x{position:fixed;top:14px;right:14px;border:0;background:rgba(255,255,227,.18);color:#FFFFE3;width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:2}
 .plb .x:hover{background:rgba(224,165,38,.55)}
 @media (max-width:900px){.plb .pin{grid-template-columns:1fr}.plb{padding:64px 12px 28px}}
+
+/* ===== Presensi ===== */
+.page.prpage{max-width:900px}
+.prsum{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 18px}
+.prsum span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 16px;font-weight:600}
+.pracc{display:flex;flex-direction:column;gap:12px}
+.pri{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.pri>button{width:100%;display:flex;align-items:center;gap:14px;text-align:left;background:none;border:0;color:var(--ink);font:inherit;font-weight:700;font-size:1.05rem;padding:16px 20px;cursor:pointer}
+.pri>button:hover{background:rgba(255,255,227,.07)}
+.pri>button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.pri .nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.pri .cnt{background:var(--gold);color:#3a0a1f;border-radius:999px;padding:3px 12px;font-size:.85rem;white-space:nowrap}
+.pri .chev{transition:transform .2s;color:var(--muted)}
+.pri.open .chev{transform:rotate(180deg)}
+.pri .pn{display:none;padding:2px 20px 18px;border-top:1px solid var(--line)}
+.pri.open .pn{display:block}
+.pri ol{margin:12px 0 0;padding-left:1.5rem;columns:2 240px;column-gap:28px}
+.pri li{padding:3px 0;break-inside:avoid;overflow-wrap:anywhere}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -6733,6 +6751,7 @@ function person(id){
 }
 function inner(id){
  if(id==='peneliti')return team();
+ if(id==='presensi')return presensiPage();
  if(id==='peta-konsep')return petaPage();
  if(id==='visual')return visualPage();
  if(DOCS[id])return docPage(id);
@@ -6880,6 +6899,46 @@ function bindPeta(id){
   });
  });
 }
+
+/* ===== Presensi ===== */
+function presensiPage(){
+ var grp=MENU[4];
+ var chips=grp.sub.filter(function(x){return x[1]!=='presensi'}).map(function(x){return '<a href="#'+x[1]+'">'+x[0]+'</a>'}).join('');
+ var body;
+ if(!me)body='<div class="authbox" style="max-width:none;margin-top:18px"><h2 style="font-size:1.3rem">Masuk untuk melihat presensi</h2><p class="sub">Daftar peserta hanya dapat dilihat oleh pengguna yang sudah masuk.</p><p style="margin:0"><a class="abtn" style="display:inline-block;width:auto" href="#masuk">Masuk</a> <a class="abtn alt" style="display:inline-block;width:auto;margin-left:8px" href="#daftar">Daftar</a></p></div>';
+ else body='<div id="prList" class="empty">Memuat daftar peserta…</div>';
+ return '<div class="page prpage"><div class="crumb"><a href="#beranda">Beranda</a> / Interaksi dan Tugas</div><h2>Presensi</h2><p>Daftar peserta terdaftar berdasarkan institusi. Klik institusi untuk melihat nama pesertanya.</p>'+body+(chips?'<div class="chips" style="margin-top:26px">'+chips+'</div>':'')+'</div>';
+}
+function prKey(t){return String(t||'').replace(/\s+/g,' ').trim().toLowerCase()}
+async function bindPresensi(id){
+ if(id!=='presensi'||!me||!sb)return;
+ var box=document.getElementById('prList');if(!box)return;
+ var res;
+ try{res=await sb.rpc('presensi_list')}catch(e){res={error:e}}
+ box=document.getElementById('prList');if(!box)return;
+ if(res.error){box.className='empty';box.textContent='Daftar peserta belum dapat dimuat. Coba muat ulang halaman.';return}
+ var rows=res.data||[],groups={},order=[];
+ rows.forEach(function(r){
+  var label=String(r.institusi||'').replace(/\s+/g,' ').trim();
+  if(!label||label==='-')label='Tanpa institusi';
+  var k=prKey(label);
+  if(!groups[k]){groups[k]={labels:{},names:[]};order.push(k)}
+  groups[k].labels[label]=(groups[k].labels[label]||0)+1;
+  groups[k].names.push(String(r.nama||'').trim()||'Tanpa nama');
+ });
+ if(!order.length){box.className='empty';box.textContent='Belum ada peserta terdaftar.';return}
+ var list=order.map(function(k){
+  var g=groups[k],best=Object.keys(g.labels).sort(function(a,b){return g.labels[b]-g.labels[a]})[0];
+  g.names.sort(function(a,b){return a.localeCompare(b,'id')});
+  return {n:best,names:g.names};
+ }).sort(function(a,b){return b.names.length-a.names.length||a.n.localeCompare(b.n,'id')});
+ box.className='';
+ box.innerHTML='<div class="prsum"><span>'+rows.length+' peserta</span><span>'+list.length+' institusi</span></div><div class="pracc">'+
+ list.map(function(g,i){return '<div class="pri"><button type="button" aria-expanded="false" aria-controls="prn'+i+'"><span class="nm">'+esc(g.n)+'</span><span class="cnt">'+g.names.length+' peserta</span><span class="chev" aria-hidden="true">▾</span></button><div class="pn" id="prn'+i+'"><ol>'+g.names.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></div></div>'}).join('')+'</div>';
+ box.querySelectorAll('.pri>button').forEach(function(b){
+  b.addEventListener('click',function(){var it=b.parentNode,o=it.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')});
+ });
+}
 /* ===== Supabase Auth ===== */
 var SB_URL='https://jmvwvzhkddvpktjulutd.supabase.co',SB_KEY='sb_publishable_7GR4kV-XWd3zaHRoDd4nrg_eIH8WVXg';
 var sb=null,me=null,profile=null;
@@ -6982,7 +7041,7 @@ async function initAuth(){
 function route(){
  var id=location.hash.slice(1)||'beranda',h=id==='beranda'?home():(authPage(id)||inner(id));
  if(!h){id='beranda';h=home()}
- app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);
+ app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);bindPresensi(id);
  var act=-1;
  MENU.forEach(function(m,i){if(m.id===id||(m.sub&&m.sub.some(function(s){return s[1]===id})))act=i});
  menu.querySelectorAll('li[data-i]').forEach(function(li){li.classList.toggle('on',+li.dataset.i===act)});
