@@ -244,6 +244,13 @@ footer{background:#3a0620}
 .stat{background:rgba(255,255,227,.09);color:#FFFFE3;border:1px solid rgba(255,255,227,.22);box-shadow:0 10px 24px rgba(20,0,10,.35)}
 .stat:hover{background:rgba(255,255,227,.15)}
 .stat span{opacity:.85}
+
+/* ===== Foto peneliti ===== */
+.av{overflow:hidden}
+.av.has{width:104px;height:104px;border:3px solid var(--gold);background:var(--surface)}
+.av.lg.has{width:150px;height:150px}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.prow .av.has{width:84px;height:84px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -387,25 +394,29 @@ var PEOPLE={
   'Perpaduan antara kepekaan sastra, jiwa wirausaha, dan keterampilan teknologi menjadi ciri khas dari setiap inisiatif yang ia bangun. Di sela kesibukan akademik dan organisasinya, Dhama mengelola usaha percetakan mandiri bernama Karsa Print yang melayani kebutuhan cetak mahasiswa, sekaligus merancang berbagai media pembelajaran interaktif berbasis web dan permainan edukasi seperti Sobat Bahasa, PenasSiswa, VTS-CLAW, dan Katanya Indonesia. Sosoknya merepresentasikan generasi muda yang tidak hanya tekun merawat tradisi intelektual dan sastra, tetapi juga adaptif dalam menghadirkan inovasi digital yang berdampak bagi dunia pendidikan.',
   'Dalam proyek ini, Dhama berperan sebagai pengembang web VTS-CLAW.']}
 };
-function avatar(c){return '<div class="av'+(c?' '+c:'')+'">'+USER+'</div>'}
+var PHOTO={perancang:'peneliti-didah.jpg',promotor:'peneliti-yumna.jpg','co-promotor':'peneliti-ilza.jpg','pengembang-web':'peneliti-dhama.jpg'};
+function avatar(c,id){
+ var f=PHOTO[id],n=id&&PEOPLE[id]?PEOPLE[id].name:'';
+ return '<div class="av'+(c?' '+c:'')+(f?' has':'')+'">'+(f?'<img src="'+f+'" alt="Foto '+esc(n)+'" loading="lazy" decoding="async" onerror="if(!this.dataset.t){this.dataset.t=1;this.src=\'img/\'+this.getAttribute(\'src\')}else{this.parentNode.classList.remove(\'has\');this.parentNode.innerHTML=USER}">':USER)+'</div>';
+}
 function more(id){var p=PEOPLE[id];return '<details class="more"><summary>Selengkapnya</summary><div class="bio"><p><b>Bidang kajian:</b> '+p.area+'</p>'+p.paras.map(function(x){return '<p>'+x+'</p>'}).join('')+'</div></details>'}
-function pcard(id){var p=PEOPLE[id];return '<div class="pc">'+avatar()+'<span class="badge">'+p.badge+'</span><b>'+p.name+'</b><span class="mut">'+p.short+'</span>'+more(id)+'</div>'}
+function pcard(id){var p=PEOPLE[id];return '<div class="pc">'+avatar('',id)+'<span class="badge">'+p.badge+'</span><b>'+p.name+'</b><span class="mut">'+p.short+'</span>'+more(id)+'</div>'}
 function prof(id){
  var p=PEOPLE[id];
- return '<article class="prof"><div class="prow">'+avatar()+'<div><span class="badge">'+p.badge+'</span><h3>'+p.name+'</h3><p class="mut">'+p.inst+'</p></div></div><div class="pdesc"><b>Bidang kajian</b><br>'+p.area+'</div><div class="bio">'+p.paras.map(function(x){return '<p>'+x+'</p>'}).join('')+'</div></article>';
+ return '<article class="prof"><div class="prow">'+avatar('',id)+'<div><span class="badge">'+p.badge+'</span><h3>'+p.name+'</h3><p class="mut">'+p.inst+'</p></div></div><div class="pdesc"><b>Bidang kajian</b><br>'+p.area+'</div><div class="bio">'+p.paras.map(function(x){return '<p>'+x+'</p>'}).join('')+'</div></article>';
 }
 function team(){
  var p=PEOPLE.perancang,d=PEOPLE['pengembang-web'];
  return '<div class="page wide"><div class="crumb"><a href="#beranda">Beranda</a> / Tentang Peneliti</div><div class="pwrap">'+
- '<div class="pmain">'+avatar('lg')+'<div class="plabel">'+p.role+'</div><h2>'+p.name+'</h2><p>'+p.inst+'</p><p class="mut">'+p.sub+'</p>'+more('perancang')+'</div>'+
+ '<div class="pmain">'+avatar('lg','perancang')+'<div class="plabel">'+p.role+'</div><h2>'+p.name+'</h2><p>'+p.inst+'</p><p class="mut">'+p.sub+'</p>'+more('perancang')+'</div>'+
  '<div class="pdesc">Mengembangkan model pembelajaran literasi kritis berbasis Visual Thinking Strategy untuk pengembangan keterampilan menulis akademik mahasiswa.</div>'+
  '<hr><h3 class="ph">Tim Pembimbing Akademik</h3><div class="pduo">'+pcard('promotor')+pcard('co-promotor')+'</div>'+
  '<div class="fokus"><h3>Fokus Penelitian</h3><p style="margin:0">Model Pembelajaran Literasi Kritis Berbasis Visual Thinking Strategy (VTS) untuk Pengembangan Keterampilan Menulis Akademik</p><div class="chips2"><span>Literasi Kritis</span><span>Visual Thinking Strategy</span><span>Menulis Akademik</span></div></div>'+
- '<hr><h3 class="ph">Pengembang Website</h3><div class="pmain">'+avatar('lg')+'<div class="plabel">'+d.role+'</div><h2>'+d.name+'</h2><p>'+d.inst+'</p><p class="mut">'+d.sub+'</p>'+more('pengembang-web')+'</div><div class="pdesc">Merancang dan mengembangkan website VTS-CLAW sebagai media pembelajaran interaktif berbasis web.</div></div></div>';
+ '<hr><h3 class="ph">Pengembang Website</h3><div class="pmain">'+avatar('lg','pengembang-web')+'<div class="plabel">'+d.role+'</div><h2>'+d.name+'</h2><p>'+d.inst+'</p><p class="mut">'+d.sub+'</p>'+more('pengembang-web')+'</div><div class="pdesc">Merancang dan mengembangkan website VTS-CLAW sebagai media pembelajaran interaktif berbasis web.</div></div></div>';
 }
 function person(id){
  var p=PEOPLE[id];
- return '<div class="page wide"><div class="crumb"><a href="#beranda">Beranda</a> / <a href="#peneliti">Tentang Peneliti</a></div><div class="pwrap"><div class="pdet">'+avatar('lg')+'<span class="badge">'+p.badge+'</span><h2 style="margin-top:10px">'+p.name+'</h2><p>'+p.inst+'</p>'+(p.sub?'<p class="mut">'+p.sub+'</p>':'')+'</div>'+
+ return '<div class="page wide"><div class="crumb"><a href="#beranda">Beranda</a> / <a href="#peneliti">Tentang Peneliti</a></div><div class="pwrap"><div class="pdet">'+avatar('lg',id)+'<span class="badge">'+p.badge+'</span><h2 style="margin-top:10px">'+p.name+'</h2><p>'+p.inst+'</p>'+(p.sub?'<p class="mut">'+p.sub+'</p>':'')+'</div>'+
  '<div class="pdesc"><b>Bidang kajian</b><br>'+p.area+'</div><div class="bio">'+p.paras.map(function(x){return '<p>'+x+'</p>'}).join('')+'</div><a class="btn2" href="#peneliti">Kembali ke Tim Peneliti</a></div></div>';
 }
 function inner(id){
