@@ -296,6 +296,50 @@ footer{background:#3a0620}
 .doc th{background:rgba(224,165,38,.2);color:#FFFFE3}
 .doc td p,.doc th p,.doc td li,.doc th li{margin:0 0 .4em;text-align:left;hyphens:manual}
 @media (max-width:900px){.doclay{grid-template-columns:1fr}.toc{position:relative;top:0;max-height:none}.toc[open] ,.toc details[open]{max-height:60vh;overflow:auto}.dochead{grid-template-columns:1fr;gap:16px}.dcov{width:130px}.doc{padding:22px 16px}}
+
+/* ===== Galeri Visual ===== */
+.page.vispage{max-width:1180px}
+.vgal{columns:3 280px;column-gap:16px;margin:22px 0 10px}
+.vfig{break-inside:avoid;margin:0 0 16px;position:relative;border-radius:18px;overflow:hidden;background:var(--surface);border:1px solid var(--line);cursor:zoom-in;box-shadow:0 8px 20px rgba(20,0,10,.35);transition:transform .2s}
+.vfig:hover{transform:translateY(-3px)}
+.vfig:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.vfig img{display:block;width:100%;height:auto}
+.vfig span{position:absolute;left:10px;bottom:10px;background:rgba(58,6,32,.82);color:#FFFFE3;padding:4px 12px;border-radius:999px;font-size:.85rem;font-weight:600}
+.vlb{position:fixed;inset:0;z-index:100;background:rgba(32,0,16,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 28px}
+.vlb.on{display:flex}
+.vlb img{max-width:100%;max-height:calc(100vh - 150px);object-fit:contain;border-radius:10px;box-shadow:0 14px 50px rgba(0,0,0,.6)}
+.vlb .cap{margin-top:14px;color:#FFFFE3;font-weight:600}
+.vlb button{position:absolute;border:0;background:rgba(255,255,227,.16);color:#FFFFE3;width:46px;height:46px;border-radius:50%;font-size:1.4rem;cursor:pointer;line-height:1}
+.vlb button:hover{background:rgba(224,165,38,.5)}
+.vlb .x{top:14px;right:14px}.vlb .pv{left:12px;top:50%;transform:translateY(-50%)}.vlb .nx{right:12px;top:50%;transform:translateY(-50%)}
+@media (max-width:640px){.vlb{padding:56px 10px 24px}.vlb .pv,.vlb .nx{top:auto;bottom:16px;transform:none}.vlb .pv{left:calc(50% - 56px)}.vlb .nx{right:calc(50% - 56px)}.vlb .cap{margin-bottom:56px}}
+
+/* ===== Peta Konsep ===== */
+.page.petapage{max-width:1100px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:22px 0 10px}
+.pcard{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;padding:0;box-shadow:0 10px 24px rgba(20,0,10,.35);transition:transform .2s}
+.pcard:hover{transform:translateY(-3px)}
+.pcard:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.pcard .pimg{display:block;background:#fff;padding:8px}
+.pcard .pimg img{display:block;width:100%;height:auto;border-radius:10px}
+.pcard .pbody{display:block;padding:16px 20px 20px}
+.pcard b{display:block;font-size:1.15rem;margin-bottom:6px;color:var(--head)}
+.pcard .hint{display:inline-block;margin-top:10px;background:var(--gold);color:#3a0a1f;padding:5px 14px;border-radius:999px;font-weight:700;font-size:.85rem}
+.pcard .sd{display:block;color:var(--muted);line-height:1.55}
+.plb{position:fixed;inset:0;z-index:100;background:rgba(32,0,16,.985);display:none;overflow-y:auto;padding:64px 20px 32px}
+.plb.on{display:block}
+.plb .pin{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.plb .pfig{background:#fff;border-radius:16px;padding:10px;overflow:auto;box-shadow:0 14px 50px rgba(0,0,0,.6)}
+.plb .pfig img{display:block;width:100%;min-width:560px;height:auto;border-radius:8px}
+.plb .pdesc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px 24px;color:var(--ink);line-height:1.65}
+.plb .pdesc h3{margin:0 0 10px;font-size:1.25rem;color:var(--head)}
+.plb .pdesc p{margin:0 0 .8em}
+.plb .pdesc ol{margin:0 0 .9em;padding-left:1.3rem}
+.plb .pdesc li{margin:.15em 0}
+.plb .pdesc a{display:inline-block;color:#3a0a1f;background:var(--gold);padding:8px 16px;border-radius:999px;font-weight:700;text-decoration:none;margin-top:6px}
+.plb .x{position:fixed;top:14px;right:14px;border:0;background:rgba(255,255,227,.18);color:#FFFFE3;width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:2}
+.plb .x:hover{background:rgba(224,165,38,.55)}
+@media (max-width:900px){.plb .pin{grid-template-columns:1fr}.plb{padding:64px 12px 28px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -6689,6 +6733,8 @@ function person(id){
 }
 function inner(id){
  if(id==='peneliti')return team();
+ if(id==='peta-konsep')return petaPage();
+ if(id==='visual')return visualPage();
  if(DOCS[id])return docPage(id);
  var grp=null,lbl=null;
  MENU.forEach(function(m){if(m.sub)m.sub.forEach(function(s){if(s[1]===id){grp=m;lbl=s[0]}})});
@@ -6743,6 +6789,96 @@ function bindDoc(id){
   docObs=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)setActive(en.target.id)})},{rootMargin:'-100px 0px -72% 0px'});
   app.querySelectorAll('.doc h2[id],.doc h3[id]').forEach(function(h){docObs.observe(h)});
  }
+}
+
+/* ===== Galeri Visual ===== */
+var VIS=[
+ 'Komik: seorang pria memegang buku cerita di samping seorang anak berpiyama di tempat tidur',
+ 'Menara peluncuran roket di kejauhan di balik pepohonan, dengan danau dan tiga bebek di depan',
+ 'Lukisan dua anak, satu digendong di punggung yang lain',
+ 'Ilustrasi robot AI menunjuk papan tulis di samping seorang anak yang menulis di buku',
+ 'Komik dua panel: seorang pria dengan laptop di kursi malas',
+ 'Kolase potret wajah dari berbagai budaya dan sebuah poster bertuliskan "Your body is not wrong. Society is."',
+ 'Lukisan dua pria duduk berhadapan di meja memegang kartu',
+ 'Tangan memegang ponsel yang menampilkan berita dan cek fakta, dengan laptop, buku, dan catatan di meja',
+ 'Deretan mural berwarna-warni di dinding abu-abu di tepi jalan',
+ 'Lukisan langit jingga bergelombang, sebuah jembatan, dan sosok dengan tangan di wajah',
+ 'Lukisan abstrak dengan sapuan warna kuning, ungu, dan hijau',
+ 'Lukisan wajah ekspresif dengan sapuan cat tebal berwarna jingga, kuning, dan hijau'
+].map(function(a,i){return {f:'visual-'+('0'+(i+1)).slice(-2)+'.jpg',a:a}});
+function visImg(src,alt,extra){return '<img src="'+src+'" alt="'+esc(alt)+'" '+(extra||'')+' decoding="async" onerror="if(!this.dataset.t){this.dataset.t=1;this.src=\'img/\'+this.getAttribute(\'src\')}">'}
+function visualPage(){
+ var grp=MENU[2];
+ var chips=grp.sub.filter(function(x){return x[1]!=='visual'}).map(function(x){return '<a href="#'+x[1]+'">'+x[0]+'</a>'}).join('');
+ return '<div class="page vispage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran</div><h2>Visual</h2><p>Kumpulan visual untuk kegiatan observasi. Ketuk atau klik gambar untuk memperbesar.</p>'+
+ '<div class="vgal">'+VIS.map(function(v,i){return '<figure class="vfig" tabindex="0" role="button" data-i="'+i+'" aria-label="Perbesar Visual '+(i+1)+': '+esc(v.a)+'">'+visImg(v.f,v.a,'loading="lazy"')+'<span>Visual '+(i+1)+'</span></figure>'}).join('')+'</div>'+
+ (chips?'<div class="chips" style="margin-top:22px">'+chips+'</div>':'')+'</div>';
+}
+var vlb=null,vcur=0;
+function vlbShow(i){
+ vcur=(i+VIS.length)%VIS.length;var v=VIS[vcur];
+ var im=vlb.querySelector('img');im.dataset.t='';im.src=v.f;im.alt=v.a;
+ vlb.querySelector('.cap').textContent='Visual '+(vcur+1)+' dari '+VIS.length;
+}
+function vlbClose(){if(!vlb)return;vlb.classList.remove('on');document.body.style.overflow='';if(vlb.__ret&&vlb.__ret.focus)vlb.__ret.focus()}
+function bindVisual(id){
+ if(vlb){vlbClose()}
+ if(id!=='visual')return;
+ if(!vlb){
+  vlb=el('<div class="vlb" role="dialog" aria-modal="true" aria-label="Pratinjau visual"><button class="x" aria-label="Tutup">✕</button><button class="pv" aria-label="Sebelumnya">‹</button><img alt="" onerror="if(!this.dataset.t){this.dataset.t=1;this.src=\'img/\'+this.getAttribute(\'src\')}"><div class="cap"></div><button class="nx" aria-label="Berikutnya">›</button></div>');
+  document.body.appendChild(vlb);
+  vlb.querySelector('.x').addEventListener('click',vlbClose);
+  vlb.querySelector('.pv').addEventListener('click',function(e){e.stopPropagation();vlbShow(vcur-1)});
+  vlb.querySelector('.nx').addEventListener('click',function(e){e.stopPropagation();vlbShow(vcur+1)});
+  vlb.addEventListener('click',function(e){if(e.target===vlb)vlbClose()});
+  document.addEventListener('keydown',function(e){
+   if(!vlb.classList.contains('on'))return;
+   if(e.key==='Escape')vlbClose();else if(e.key==='ArrowLeft')vlbShow(vcur-1);else if(e.key==='ArrowRight')vlbShow(vcur+1);
+  });
+ }
+ app.querySelectorAll('.vfig').forEach(function(f){
+  function open(){vlb.__ret=f;vlbShow(+f.dataset.i);vlb.classList.add('on');document.body.style.overflow='hidden';vlb.querySelector('.x').focus()}
+  f.addEventListener('click',open);
+  f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+ });
+}
+
+/* ===== Peta Konsep ===== */
+var PETA=[{
+ f:'peta-konsep-sintaks.jpg',
+ t:'Sintaks Model Pembelajaran Literasi Kritis Berbasis Visual Thinking Strategy',
+ s:'Tujuh tahap pembelajaran VTS-CLAW dari mengamati visual sampai menulis dan merefleksi.',
+ d:'Peta konsep ini menggambarkan alur besar model VTS-CLAW untuk mengembangkan keterampilan menulis akademik. Mahasiswa bergerak dari mengamati sebuah visual tanpa penilaian dini, menafsirkannya dengan bukti, berdialog dengan perspektif lain, mempertanyakan isu secara kritis, menelusuri sumber akademik, menyusun argumentasi, hingga menghasilkan tulisan dan merefleksikan prosesnya. Setiap tahap memuat tujuan, aktivitas utama, dan capaian proses.',
+ steps:['Observasi Visual','Interpretasi Berbasis Bukti','Dialog Perspektif','Problematisasi Kritis','Penelusuran dan Kontekstualisasi Akademik','Konstruksi Argumentasi','Produksi, Redesain, dan Refleksi'],
+ o:'Hasil pembelajaran: ketelitian observasional, interpretasi berbasis bukti, berpikir kritis dan analitis, argumentasi yang logis, serta tulisan akademik yang siap dipublikasikan.'
+}];
+function petaPage(){
+ var grp=MENU[2];
+ var chips=grp.sub.filter(function(x){return x[1]!=='peta-konsep'}).map(function(x){return '<a href="#'+x[1]+'">'+x[0]+'</a>'}).join('');
+ return '<div class="page petapage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran</div><h2>Peta Konsep</h2><p>Klik peta konsep untuk melihat deskripsi singkatnya.</p>'+
+ '<div class="pgrid">'+PETA.map(function(m,i){return '<button type="button" class="pcard" data-i="'+i+'" aria-label="Lihat deskripsi: '+esc(m.t)+'"><span class="pimg">'+visImg(m.f,m.t,'loading="lazy"')+'</span><span class="pbody"><b>'+esc(m.t)+'</b><span class="sd">'+esc(m.s)+'</span><span class="hint">Klik untuk deskripsi</span></span></button>'}).join('')+'</div>'+
+ (chips?'<div class="chips" style="margin-top:22px">'+chips+'</div>':'')+'</div>';
+}
+var plb=null;
+function plbClose(){if(!plb)return;plb.classList.remove('on');document.body.style.overflow='';if(plb.__ret&&plb.__ret.focus)plb.__ret.focus()}
+function bindPeta(id){
+ if(plb)plbClose();
+ if(id!=='peta-konsep')return;
+ if(!plb){
+  plb=el('<div class="plb" role="dialog" aria-modal="true" aria-label="Deskripsi peta konsep"><button class="x" aria-label="Tutup">✕</button><div class="pin"><div class="pfig"></div><div class="pdesc"></div></div></div>');
+  document.body.appendChild(plb);
+  plb.querySelector('.x').addEventListener('click',plbClose);
+  plb.addEventListener('click',function(e){if(e.target===plb)plbClose()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&plb.classList.contains('on'))plbClose()});
+ }
+ app.querySelectorAll('.pcard').forEach(function(c){
+  c.addEventListener('click',function(){
+   var m=PETA[+c.dataset.i];
+   plb.querySelector('.pfig').innerHTML=visImg(m.f,m.t);
+   plb.querySelector('.pdesc').innerHTML='<h3>'+esc(m.t)+'</h3><p>'+esc(m.d)+'</p><p><b>Tahapan:</b></p><ol>'+m.steps.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol><p>'+esc(m.o)+'</p><a href="'+esc(m.f)+'" target="_blank" rel="noopener">Buka gambar penuh ↗</a>';
+   plb.__ret=c;plb.scrollTop=0;plb.classList.add('on');document.body.style.overflow='hidden';plb.querySelector('.x').focus();
+  });
+ });
 }
 /* ===== Supabase Auth ===== */
 var SB_URL='https://jmvwvzhkddvpktjulutd.supabase.co',SB_KEY='sb_publishable_7GR4kV-XWd3zaHRoDd4nrg_eIH8WVXg';
@@ -6846,7 +6982,7 @@ async function initAuth(){
 function route(){
  var id=location.hash.slice(1)||'beranda',h=id==='beranda'?home():(authPage(id)||inner(id));
  if(!h){id='beranda';h=home()}
- app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);
+ app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);
  var act=-1;
  MENU.forEach(function(m,i){if(m.id===id||(m.sub&&m.sub.some(function(s){return s[1]===id})))act=i});
  menu.querySelectorAll('li[data-i]').forEach(function(li){li.classList.toggle('on',+li.dataset.i===act)});
