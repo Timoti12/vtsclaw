@@ -1,4 +1,4 @@
-[README (2).md](https://github.com/user-attachments/files/35161086/README.2.md)
+[README (3).md](https://github.com/user-attachments/files/35200757/README.3.md)
 # VTS-CLAW
 
 Visual Thinking Strategy untuk Literasi Kritis dan Menulis Akademik.
@@ -22,3 +22,13 @@ Situs statis (satu file `index.html`) dengan login/daftar memakai **Supabase Aut
 ## Hosting (GitHub Pages)
 Settings → Pages → Deploy from a branch → `main` / root.
 Lalu tambahkan URL Pages ke Supabase → Authentication → URL Configuration (Site URL & Redirect URLs).
+
+## Foto kampus
+Taruh foto di folder `img/` dengan nama berikut (JPG, disarankan lebar ≥1600px, ukuran <500 KB):
+- `img/uin-jakarta.jpg` — UIN Syarif Hidayatullah Jakarta
+- `img/uin-bandung.jpg` — UIN Sunan Gunung Djati Bandung
+- `img/umj.jpg` — Universitas Muhammadiyah Jakarta
+- `img/uhamka.jpg` — UHAMKA
+- `img/unindra.jpg` — UNINDRA
+
+Foto tampil di banner dan bagian Tempat Penelitian dengan lapisan blur burgundi. Jika file belum ada, otomatis tampil latar burgundi.
