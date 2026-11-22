@@ -299,11 +299,11 @@ footer{background:#3a0620}
 
 /* ===== Galeri Visual ===== */
 .page.vispage{max-width:1180px}
-.vgal{columns:3 280px;column-gap:16px;margin:22px 0 10px}
-.vfig{break-inside:avoid;margin:0 0 16px;position:relative;border-radius:18px;overflow:hidden;background:var(--surface);border:1px solid var(--line);cursor:zoom-in;box-shadow:0 8px 20px rgba(20,0,10,.35);transition:transform .2s}
+.vgal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 14px}
+.vfig{margin:0;aspect-ratio:4/3;position:relative;border-radius:18px;overflow:hidden;background:var(--surface);border:1px solid var(--line);cursor:zoom-in;box-shadow:0 8px 20px rgba(20,0,10,.35);transition:transform .2s}
 .vfig:hover{transform:translateY(-3px)}
 .vfig:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.vfig img{display:block;width:100%;height:auto}
+.vfig img{display:block;width:100%;height:100%;object-fit:cover}
 .vfig span{position:absolute;left:10px;bottom:10px;background:rgba(58,6,32,.82);color:#FFFFE3;padding:4px 12px;border-radius:999px;font-size:.85rem;font-weight:600}
 .vlb{position:fixed;inset:0;z-index:100;background:rgba(32,0,16,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 28px}
 .vlb.on{display:flex}
@@ -445,6 +445,47 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 .tgsub[hidden],.tgsubs[hidden],[hidden]{display:none!important}
 .tgsub .rbtn{margin-top:12px}
 .tgitem{padding:10px 0;border-bottom:1px solid var(--line)}.tgitem:last-child{border-bottom:0}
+/* ===== Ruang Diskusi (WhatsApp) ===== */
+.wa{max-width:760px;margin:18px auto 0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#3a0620;box-shadow:0 14px 34px rgba(20,0,10,.45)}
+.wahead{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#6a1438;border-bottom:1px solid var(--line)}
+.wahead b{display:block}.wahead small{color:var(--muted)}
+.waav{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#3a0a1f;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.wabox{height:min(62vh,560px);overflow-y:auto;padding:12px 14px;background:#3a0620 radial-gradient(rgba(255,255,227,.06) 1px,transparent 1px) 0 0/22px 22px}
+.wadate{text-align:center;margin:12px 0 8px}.wadate span{background:rgba(255,255,227,.14);color:var(--muted);border-radius:10px;padding:3px 12px;font-size:.78rem}
+.wam{display:flex;margin:2px 0}.wam.me{justify-content:flex-end}.wam.first{margin-top:9px}
+.wab{position:relative;max-width:80%;padding:6px 10px 4px;border-radius:12px;box-shadow:0 1px 1px rgba(0,0,0,.25)}
+.wam.me .wab{background:#E0A526;color:#2b0a1a}.wam.ot .wab{background:#6a1438;color:#FFFFE3}
+.wam.first.me .wab{border-top-right-radius:2px}.wam.first.ot .wab{border-top-left-radius:2px}
+.wam.first .wab::before{content:"";position:absolute;top:0;width:0;height:0;border:7px solid transparent}
+.wam.first.me .wab::before{right:-8px;border-top-color:#E0A526;border-left-color:#E0A526}
+.wam.first.ot .wab::before{left:-8px;border-top-color:#6a1438;border-right-color:#6a1438}
+.wan{font-size:.82rem;font-weight:700;margin-bottom:1px}
+.wadev{background:var(--gold);color:#3a0a1f;border-radius:999px;padding:0 7px;font-size:.66rem;font-weight:800;vertical-align:middle}
+.wat{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45}
+.wam2{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:.7rem;opacity:.75;margin-top:1px}
+.wadel{border:0;background:none;color:inherit;font:inherit;font-size:.7rem;text-decoration:underline;cursor:pointer;padding:0}
+.waform{display:flex;gap:8px;align-items:flex-end;padding:10px 12px;background:#6a1438;border-top:1px solid var(--line)}
+.waform textarea{flex:1;resize:none;max-height:120px;padding:10px 16px;border-radius:22px;border:0;background:#3a0620;color:#FFFFE3;font:inherit;line-height:1.4}
+.waform textarea:focus{outline:2px solid var(--gold)}
+.wasend{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:0;background:var(--gold);color:#3a0a1f;font-size:1.15rem;cursor:pointer}
+.wasend:disabled{opacity:.6}
+@media (max-width:640px){.wa{border-radius:16px}.wab{max-width:88%}}
+/* ===== Galeri visual 3x3 ===== */
+.vpager{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:8px 0 6px}
+.vpn{border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:50%;font:inherit;font-weight:700;cursor:pointer}
+.vpn.on{background:var(--gold);color:#3a0a1f;border-color:var(--gold)}
+.rbtn:disabled{opacity:.45;cursor:default}
+@media (max-width:640px){.vgal{gap:8px}.vfig{border-radius:12px}.vfig span{left:6px;bottom:6px;padding:2px 8px;font-size:.72rem}}
+
+/* ===== Kartu Tempat Penelitian (foto + label gelap menumpuk) ===== */
+.places{display:flex;flex-wrap:wrap;justify-content:center;gap:30px 28px}
+.place.pl2{flex:0 0 calc((100% - 56px)/3);display:flex;flex-direction:column;background:none;border-radius:0;box-shadow:none;transition:transform .25s}
+.place.pl2:hover{transform:translateY(-4px)}
+.pl2 .pimg{position:relative;aspect-ratio:5/4;border-radius:44px;overflow:hidden;background:linear-gradient(160deg,#a33a68,#3d0020);box-shadow:0 12px 28px rgba(20,0,10,.4)}
+.pl2 .plab{position:relative;flex:1;margin:-64px 6% 0;min-height:104px;padding:20px 22px;background:#2a0316;border:1px solid rgba(255,255,227,.12);border-radius:40px;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;font-weight:700;font-size:1.12rem;line-height:1.35;color:#FFFFE3;box-shadow:0 10px 24px rgba(20,0,10,.45)}
+.pl2 .plab svg{flex:0 0 auto}
+@media (max-width:1000px){.place.pl2{flex-basis:calc((100% - 28px)/2)}}
+@media (max-width:640px){.place.pl2{flex-basis:100%}.pl2 .pimg{border-radius:36px}.pl2 .plab{border-radius:32px;font-size:1.05rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -6757,7 +6798,7 @@ function home(){
  '<section class="sec stats"><div class="wrap"><div class="charts2">'+ring(3,'Kompetensi Utama','Kritis, Aksi, dan Realistis','#rps')+ring(7,'Tahapan Sintaks','Alur langkah Visual Thinking Strategy','#observasi-visual')+ring(9,'Bab Modul Mahasiswa','Panduan menulis akademik berbasis literasi kritis','#materi')+'</div></div></section>'+
  '<section class="sec"><div class="wrap"><h2 class="sh">Mengenal VTS-CLAW</h2><div id="sl" role="region" aria-roledescription="carousel" aria-label="Mengenal VTS-CLAW"><div id="slc" class="ctrack"></div><div class="dots" id="dots"></div></div></div></section>'+
  '<section class="sec alt"><div class="wrap"><h2 class="sh c">Tempat Penelitian</h2><div class="places">'+
- CAMPUS.map(function(c){return '<div class="place"><div class="ph">'+imgTag('pbg',c.img,'Kampus '+c.n)+'<div class="pov"></div><div class="pt">'+c.n+'</div><div class="pk">'+c.k+'</div></div><p>'+c.d+'</p></div>'}).join('')+
+ CAMPUS.map(function(c){return '<div class="place pl2"><div class="pimg">'+imgTag('pbg',c.img,'Kampus '+c.n)+'</div><div class="plab"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#E0A526" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 9 12 14l9.5-5L12 4Z"/><path d="M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5"/><path d="M21.5 9v5.5"/></svg><span>'+esc(c.n)+'</span></div></div>'}).join('')+
  '</div></div></section>';
 }
 var carTimers=[];
@@ -6843,6 +6884,7 @@ function inner(id){
  if(id==='tugas-proyek')return tugasPage();
  if(id==='refleksi')return refleksiPage();
  if(id==='pojok-curhat')return curhatPage();
+ if(id==='ruang-diskusi')return diskusiPage();
  if(id==='peta-konsep')return petaPage();
  if(id==='visual')return visualPage();
  if(DOCS[id])return docPage(id);
@@ -6917,12 +6959,21 @@ var VIS=[
  'Lukisan wajah ekspresif dengan sapuan cat tebal berwarna jingga, kuning, dan hijau'
 ].map(function(a,i){return {f:'visual-'+('0'+(i+1)).slice(-2)+'.jpg',a:a}});
 function visImg(src,alt,extra){return '<img src="'+src+'" alt="'+esc(alt)+'" '+(extra||'')+' decoding="async" onerror="if(!this.dataset.t){this.dataset.t=1;this.src=\'img/\'+this.getAttribute(\'src\')}">'}
+var VP={page:0},VPER=9;
 function visualPage(){
  var grp=MENU[2];
  var chips=grp.sub.filter(function(x){return x[1]!=='visual'}).map(function(x){return '<a href="#'+x[1]+'">'+x[0]+'</a>'}).join('');
- return '<div class="page vispage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran</div><h2>Visual</h2><p>Kumpulan visual untuk kegiatan observasi. Ketuk atau klik gambar untuk memperbesar.</p>'+
- '<div class="vgal">'+VIS.map(function(v,i){return '<figure class="vfig" tabindex="0" role="button" data-i="'+i+'" aria-label="Perbesar Visual '+(i+1)+': '+esc(v.a)+'">'+visImg(v.f,v.a,'loading="lazy"')+'<span>Visual '+(i+1)+'</span></figure>'}).join('')+'</div>'+
+ return '<div class="page vispage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran</div><h2>Visual</h2><p>Kumpulan visual untuk kegiatan observasi. Ketuk atau klik gambar untuk memperbesar.</p><div id="vgal" class="vgal"></div><div id="vpager" class="vpager"></div>'+
  (chips?'<div class="chips" style="margin-top:22px">'+chips+'</div>':'')+'</div>';
+}
+function visPaint(){
+ var g=document.getElementById('vgal');if(!g)return;
+ var pages=Math.ceil(VIS.length/VPER);VP.page=Math.min(Math.max(VP.page,0),pages-1);
+ var from=VP.page*VPER;
+ g.innerHTML=VIS.slice(from,from+VPER).map(function(v,k){var i=from+k;return '<figure class="vfig" tabindex="0" role="button" data-i="'+i+'" aria-label="Perbesar Visual '+(i+1)+': '+esc(v.a)+'">'+visImg(v.f,v.a,'loading="lazy"')+'<span>Visual '+(i+1)+'</span></figure>'}).join('');
+ var pg=document.getElementById('vpager');
+ var nums='';for(var p=0;p<pages;p++)nums+='<button type="button" class="vpn'+(p===VP.page?' on':'')+'" data-p="'+p+'" aria-label="Halaman '+(p+1)+'"'+(p===VP.page?' aria-current="page"':'')+'>'+(p+1)+'</button>';
+ pg.innerHTML=pages>1?'<button type="button" class="rbtn alt" data-p="'+(VP.page-1)+'"'+(VP.page===0?' disabled':'')+'>‹ Sebelumnya</button>'+nums+'<button type="button" class="rbtn alt" data-p="'+(VP.page+1)+'"'+(VP.page===pages-1?' disabled':'')+'>Berikutnya ›</button>':'';
 }
 var vlb=null,vcur=0;
 function vlbShow(i){
@@ -6946,11 +6997,12 @@ function bindVisual(id){
    if(e.key==='Escape')vlbClose();else if(e.key==='ArrowLeft')vlbShow(vcur-1);else if(e.key==='ArrowRight')vlbShow(vcur+1);
   });
  }
- app.querySelectorAll('.vfig').forEach(function(f){
-  function open(){vlb.__ret=f;vlbShow(+f.dataset.i);vlb.classList.add('on');document.body.style.overflow='hidden';vlb.querySelector('.x').focus()}
-  f.addEventListener('click',open);
-  f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
- });
+ VP.page=0;visPaint();
+ var gal=document.getElementById('vgal');
+ function openAt(f){vlb.__ret=f;vlbShow(+f.dataset.i);vlb.classList.add('on');document.body.style.overflow='hidden';vlb.querySelector('.x').focus()}
+ gal.addEventListener('click',function(e){var f=e.target.closest('.vfig');if(f)openAt(f)});
+ gal.addEventListener('keydown',function(e){var f=e.target.closest('.vfig');if(f&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openAt(f)}});
+ document.getElementById('vpager').addEventListener('click',function(e){var b=e.target.closest('[data-p]');if(!b||b.disabled)return;VP.page=+b.dataset.p;visPaint();gal.scrollIntoView({block:'start',behavior:'smooth'})});
 }
 
 /* ===== Peta Konsep ===== */
@@ -7031,7 +7083,7 @@ function presensiKampusPage(id){
  if(!me)return loginBox('Presensi');
  var k=id.slice(9),n=campusName(k)||'Presensi kampus';
  var form=isDev()?'<form id="pkForm" class="pkform"><input id="pkJudul" required maxlength="150" placeholder="Judul pertemuan, mis. Pertemuan 1" aria-label="Judul pertemuan"><input id="pkTgl" type="date" required aria-label="Tanggal pertemuan"><button class="rbtn" type="submit">Tambah pertemuan</button></form>':'';
- return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / <a href="#presensi">Presensi</a></div><h2 id="pkTitle">'+esc(n)+'</h2><p>Pilih pertemuan, lalu isi kehadiran.</p>'+form+'<div id="pkMsg" class="msg" role="status"></div><div id="pkBody" class="empty">Memuat pertemuan…</div></div>';
+ return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / <a href="#presensi">Presensi</a></div><h2 id="pkTitle">'+esc(n)+'</h2><p>'+(isDev()?'Pilih pertemuan, lalu isi kehadiran peserta.':'Pilih pertemuan untuk melihat kehadiran. Presensi diisi oleh developer.')+'</p>'+form+'<div id="pkMsg" class="msg" role="status"></div><div id="pkBody" class="empty">Memuat pertemuan…</div></div>';
 }
 async function pkRoster(){PK.roster=[];if(!PK.sel)return;var r=await sb.rpc('presensi_roster',{p_sesi:PK.sel});PK.roster=r.error?[]:(r.data||[])}
 async function pkLoad(keep){
@@ -7049,11 +7101,11 @@ function pkRender(){
  var s=PK.sessions.filter(function(x){return x.id===PK.sel})[0]||PK.sessions[0],dev=isDev();
  var tabs='<div class="ptabs">'+PK.sessions.map(function(x){return '<button type="button" class="ptab'+(x.id===s.id?' on':'')+'" data-s="'+esc(x.id)+'">'+esc(x.judul)+'<small>'+esc(fD(x.tanggal))+'</small></button>'}).join('')+'</div>';
  var hadir=PK.roster.filter(function(r){return r.status==='hadir'}).length;
- var head='<div class="pkhead"><div><b>'+esc(s.judul)+'</b><span class="mut"> · '+esc(fD(s.tanggal))+'</span> <span class="rolebadge" style="margin-left:6px">'+(s.terbuka?'Terbuka':'Ditutup')+'</span><div class="mut" style="margin-top:4px">Hadir '+hadir+' dari '+PK.roster.length+' peserta</div></div>'+(dev?'<div class="pkact"><button type="button" class="rbtn alt" data-act="toggle">'+(s.terbuka?'Tutup presensi':'Buka presensi')+'</button><button type="button" class="rbtn alt" data-act="del">Hapus pertemuan</button></div>':'')+'</div>';
+ var head='<div class="pkhead"><div><b>'+esc(s.judul)+'</b><span class="mut"> · '+esc(fD(s.tanggal))+'</span><div class="mut" style="margin-top:4px">Hadir '+hadir+' dari '+PK.roster.length+' peserta</div></div>'+(dev?'<div class="pkact"><button type="button" class="rbtn alt" data-act="del">Hapus pertemuan</button></div>':'')+'</div>';
  var rows=PK.roster.map(function(r){
   var self=me&&r.user_id===me.id,cell;
-  if(dev||(self&&s.terbuka&&r.status!=='alpa')){
-   var opts=['hadir','izin','sakit'].concat(dev?['alpa']:[]);
+  if(dev){
+   var opts=['hadir','izin','sakit','alpa'];
    cell='<select data-u="'+esc(r.user_id)+'" aria-label="Status '+esc(r.nama)+'">'+(r.status?'':'<option value="" selected disabled>Belum diisi</option>')+opts.map(function(o){return '<option value="'+o+'"'+(r.status===o?' selected':'')+'>'+ST[o]+'</option>'}).join('')+'</select>';
   }else cell=r.status?'<span class="st st-'+esc(r.status)+'">'+esc(ST[r.status]||r.status)+'</span>':'<span class="mut">Belum diisi</span>';
   return '<tr><td>'+esc(r.nama)+(self?' <span class="mut">(Anda)</span>':'')+'</td><td>'+cell+'</td></tr>';
@@ -7313,6 +7365,59 @@ function bindTugas(id){
  });
  tgLoad();
 }
+/* ===== Ruang Diskusi (grup bergaya WhatsApp) ===== */
+var DS={msgs:[],key:''},DSC=['#F0C766','#8fd3ff','#b6f0a8','#ffb4c8','#d1b3ff','#ffc08a','#9ee6e0','#f5a3f0'];
+function dsColor(id){var h=0;id=String(id);for(var i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return DSC[h%DSC.length]}
+function diskusiPage(){
+ if(!me)return loginBox('Ruang Diskusi');
+ return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / Interaksi dan Tugas</div><div class="wa"><div class="wahead"><div class="waav" aria-hidden="true">VC</div><div><b>Ruang Diskusi VTS-CLAW</b><small>Grup diskusi semua peserta dan developer</small></div></div><div id="waBox" class="wabox" aria-live="polite"><div class="empty">Memuat percakapan…</div></div><div id="waMsg" class="msg" role="status" style="margin:0 12px 8px"></div><form id="waForm" class="waform"><textarea id="waText" rows="1" maxlength="2000" placeholder="Ketik pesan" aria-label="Ketik pesan" required></textarea><button type="submit" class="wasend" aria-label="Kirim pesan">➤</button></form></div><div class="chips" style="margin-top:22px">'+igChips('ruang-diskusi')+'</div></div>';
+}
+function dsDayLabel(v){var x=new Date(v),t=new Date(),y=new Date(Date.now()-864e5);function k(a){return a.getFullYear()+'-'+a.getMonth()+'-'+a.getDate()}return k(x)===k(t)?'Hari ini':k(x)===k(y)?'Kemarin':x.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
+function dsHTML(msgs){
+ if(!msgs.length)return '<div class="empty">Belum ada pesan. Jadilah yang pertama menyapa.</div>';
+ var out='',lastDay='',lastSender='';
+ msgs.forEach(function(m){
+  var d=new Date(m.created_at),dk=d.toDateString();
+  if(dk!==lastDay){out+='<div class="wadate"><span>'+esc(dsDayLabel(m.created_at))+'</span></div>';lastDay=dk;lastSender=''}
+  var mine=me&&m.pengirim===me.id,first=m.pengirim!==lastSender;lastSender=m.pengirim;
+  var canDel=mine||isDev();
+  out+='<div class="wam '+(mine?'me':'ot')+(first?' first':'')+'"><div class="wab">'+(first&&!mine?'<div class="wan" style="color:'+dsColor(m.pengirim)+'">'+esc(m.nama)+(m.peran==='developer'?' <span class="wadev">Developer</span>':'')+'</div>':'')+'<div class="wat">'+esc(m.isi)+'</div><div class="wam2"><span>'+esc(d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}))+'</span>'+(canDel?'<button type="button" class="wadel" data-del="'+esc(m.id)+'" aria-label="Hapus pesan">Hapus</button>':'')+'</div></div></div>';
+ });
+ return out;
+}
+async function dsTick(force){
+ var r=await sb.rpc('diskusi_list',{p_limit:150});
+ var box=document.getElementById('waBox');if(!box||r.error)return;
+ var msgs=r.data||[],key=msgs.length+':'+(msgs.length?msgs[msgs.length-1].id:0);
+ if(key===DS.key&&!force)return;
+ var near=box.scrollHeight-box.scrollTop-box.clientHeight<100||!DS.key;
+ DS.msgs=msgs;DS.key=key;box.innerHTML=dsHTML(msgs);
+ if(near||force)box.scrollTop=box.scrollHeight;
+}
+function bindDiskusi(id){
+ if(id!=='ruang-diskusi'||!me||!sb)return;
+ DS={msgs:[],key:''};
+ var ta=document.getElementById('waText'),f=document.getElementById('waForm');
+ function grow(){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,120)+'px'}
+ ta.addEventListener('input',grow);
+ ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)){e.preventDefault();f.requestSubmit()}});
+ f.addEventListener('submit',async function(e){
+  e.preventDefault();var t=ta.value.trim();if(!t)return;
+  var b=f.querySelector('button');b.disabled=true;note('waMsg','');
+  var r=await sb.from('diskusi_pesan').insert({pengirim:me.id,isi:t});
+  b.disabled=false;
+  if(r.error){note('waMsg',eMsg(r.error));return}
+  ta.value='';grow();await dsTick(true);ta.focus();
+ });
+ document.getElementById('waBox').addEventListener('click',async function(e){
+  var d=e.target.closest('[data-del]');if(!d)return;
+  if(!await devConfirm('Hapus pesan?','Pesan ini akan dihapus dari grup.','Ya, hapus'))return;
+  var r=await sb.from('diskusi_pesan').delete().eq('id',Number(d.dataset.del));
+  if(r.error){note('waMsg',eMsg(r.error));return}
+  await dsTick(true);
+ });
+ dsTick(true);POLL=setInterval(function(){dsTick(false)},5000);
+}
 /* ===== Dasbor Developer ===== */
 var DEVU=[];
 function devMsg(t,k){var m=document.getElementById('dMsg');if(!m)return;m.className=t?'msg '+(k||'err'):'msg';m.textContent=t||''}
@@ -7465,7 +7570,7 @@ function route(){
  if(POLL){clearInterval(POLL);POLL=null}
  var id=location.hash.slice(1)||'beranda',h=id==='beranda'?home():(authPage(id)||inner(id));
  if(!h){id='beranda';h=home()}
- app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);bindPresensi(id);bindPresensiKampus(id);bindTugas(id);bindRefleksi(id);bindCurhat(id);
+ app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);bindPresensi(id);bindPresensiKampus(id);bindTugas(id);bindRefleksi(id);bindCurhat(id);bindDiskusi(id);
  var act=-1,aid=id.indexOf('presensi-')===0?'presensi':id;
  MENU.forEach(function(m,i){if(m.id===aid||(m.sub&&m.sub.some(function(s){return s[1]===aid})))act=i});
  menu.querySelectorAll('li[data-i]').forEach(function(li){li.classList.toggle('on',+li.dataset.i===act)});
