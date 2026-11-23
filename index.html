@@ -505,6 +505,58 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 .doc .mpt{max-width:760px;margin:16px auto;line-height:0}
 .doc ul,.doc ol{margin:.4em 0 1em}
 .doc li{margin:.25em 0}
+/* ===== Peta Konsep interaktif ===== */
+.page.petapage{max-width:1180px}
+.pkint{max-width:900px;line-height:1.65;margin:0 0 24px}
+.pkmap{display:flex;flex-direction:column;align-items:center}
+.pkroot{width:min(100%,860px);text-align:center;border:0;cursor:pointer;font:inherit;color:#660033;background:linear-gradient(135deg,#FFFBE0,#FCDDE7);border-radius:28px;padding:26px 24px;box-shadow:0 10px 24px rgba(20,0,10,.35);transition:transform .2s}
+.pkroot:hover{transform:translateY(-2px)}
+.pkroot b{display:block;font-size:2rem;line-height:1.15;margin-bottom:8px}.pkroot span{display:block;font-size:1.05rem}
+.pkline{width:2px;height:28px;background:rgba(255,255,227,.45)}
+.pkgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;width:100%;margin-top:0}
+.pkc,.pko{border:0;cursor:pointer;font:inherit;text-align:left;color:#660033;background:#FFFDE3;border-radius:24px;box-shadow:0 8px 20px rgba(20,0,10,.35);transition:transform .2s}
+.pkc{display:flex;flex-direction:column;gap:12px;padding:20px 22px;min-height:190px}
+.pkc:hover,.pko:hover{transform:translateY(-3px)}
+.pkc:focus-visible,.pko:focus-visible,.pkroot:focus-visible,.pkf:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.pkn,.pki{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.pkn{width:48px;height:48px;border-radius:50%;font-size:1.3rem}
+.pkc b{display:block;text-transform:uppercase;letter-spacing:.01em;font-size:1.05rem;line-height:1.3}
+.pkm{display:block;margin-top:auto;color:#8c6b78;font-size:.98rem}
+.pkh{margin:38px 0 14px;text-transform:uppercase;letter-spacing:.06em;font-size:1.1rem}
+.pkouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pko{display:flex;align-items:center;gap:16px;padding:20px 22px}
+.pki{width:52px;height:52px;border-radius:14px;font-size:1.4rem}
+.pko b{display:block;text-transform:uppercase;font-size:1.05rem;margin-bottom:4px}.pko .pkm{margin-top:0}
+.pkflow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 10px}
+.pkf{border:1.5px solid rgba(255,255,227,.55);background:none;color:var(--ink);font:inherit;font-weight:700;padding:10px 22px;border-radius:999px;cursor:pointer;transition:background .15s}
+.pkf:hover{background:rgba(255,255,227,.14)}
+.pka{color:var(--muted);font-size:1.3rem}
+.pkd{position:fixed;inset:0;z-index:110;background:rgba(32,0,16,.82);display:none;align-items:center;justify-content:center;padding:18px}
+.pkd.on{display:flex}
+.pkb{position:relative;width:min(100%,640px);max-height:calc(100vh - 36px);overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-top:6px solid #660033;border-radius:24px;padding:26px 28px 24px;box-shadow:0 18px 50px rgba(0,0,0,.6);color:var(--ink);line-height:1.65}
+.pkb .x{position:absolute;top:12px;right:12px;border:0;background:rgba(255,255,227,.14);color:#FFFFE3;width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer}
+.pkb .x:hover{background:rgba(224,165,38,.5)}
+.pkbadge{margin-bottom:10px}.pkbadge .pkn{width:44px;height:44px}.pkbadge .pki{width:48px;height:48px}
+.pkb h3{margin:0 0 4px;font-size:1.35rem;color:var(--head);padding-right:40px}
+.pkb h4{margin:16px 0 4px;color:#F0C766;font-size:1rem}
+.pkb p{margin:.3em 0 .7em}.pkb .pks{color:var(--muted);margin:0 0 6px}
+.pkb ul,.pkb ol{margin:.2em 0 .8em;padding-left:1.3rem}.pkb li{margin:.2em 0}
+.pkbtn{display:inline-block;background:var(--gold);color:#3a0a1f;padding:9px 18px;border-radius:999px;font-weight:700;text-decoration:none}
+.pknav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+@media (max-width:1000px){.pkgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.pkgrid,.pkouts{grid-template-columns:1fr}.pkc{min-height:0}.pkroot b{font-size:1.6rem}.pkb{padding:22px 18px}}
+
+/* ===== Banner pertama: video layar penuh + teks di atasnya ===== */
+.hs.hsv{background-color:#4a0a26}
+.hbgv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% center;z-index:0}
+.hovl{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(84,8,38,.97) 0%,rgba(104,18,54,.86) 34%,rgba(130,42,82,.45) 66%,rgba(150,70,104,.22) 100%)}
+.hsv .h2in h1{font-size:clamp(2.6rem,7vw,5rem);line-height:1.04;margin:0 0 12px;max-width:none;text-shadow:0 2px 18px rgba(40,0,20,.45)}
+.hsv .hsub{font-size:clamp(1.1rem,2.3vw,1.7rem);line-height:1.35;font-weight:700;max-width:24em;margin:0 0 14px;color:#FFFFE3;text-shadow:0 2px 14px rgba(40,0,20,.45)}
+.hsv .h2in p{font-size:clamp(1rem,1.5vw,1.2rem);max-width:34em;opacity:.95;text-shadow:0 1px 10px rgba(40,0,20,.4)}
+.hbtns{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+.h2in .btn.ghost{background:transparent;color:#FFFFE3;border:2px solid #FFFFE3}
+.h2in .btn.ghost:hover{background:rgba(255,255,227,.16)}
+@media (max-width:700px){.hovl{background:linear-gradient(180deg,rgba(84,8,38,.9) 0%,rgba(104,18,54,.82) 55%,rgba(120,34,72,.7) 100%)}.hbgv{object-position:70% center}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -8981,7 +9033,7 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 var MENU=[
  {t:'Beranda',id:'beranda'},
  {t:'Tentang Model',sub:[['RPS','rps'],['Panduan Dosen','panduan-dosen'],['Asesmen','asesmen'],['Monitoring','monitoring']]},
- {t:'Materi Pembelajaran',sub:[['Materi','materi'],['Peta Konsep','peta-konsep'],['Visual','visual'],['Hack King','hack-king']]},
+ {t:'Materi Pembelajaran',sub:[['Materi','materi'],['Peta Konsep','peta-konsep'],['Visual','visual'],['Klinik Menulis','klinik-menulis']]},
  {t:'Sintaks dan Prosedur',sub:[['Observasi Visual','observasi-visual'],['Prosedur','prosedur']]},
  {t:'Interaksi dan Tugas',sub:[['Ruang Diskusi','ruang-diskusi'],['Presensi','presensi'],['Tugas dan Proyek','tugas-proyek'],['Kuis','kuis'],['Refleksi','refleksi'],['Pojok Curhat','pojok-curhat']]},
  {t:'Tentang Peneliti',id:'peneliti'}
@@ -9027,7 +9079,7 @@ var CAMPUS=[
  {n:'Universitas Muhammadiyah Prof. Dr. HAMKA (UHAMKA)',k:'Jakarta',img:'uhamka.jpg',d:'Salah satu lokasi pelaksanaan penelitian VTS-CLAW.'},
  {n:'Universitas Indraprasta PGRI (UNINDRA)',k:'Jakarta',img:'unindra.jpg',d:'Salah satu lokasi pelaksanaan penelitian VTS-CLAW.'}
 ];
-var HS=[{video:'vts-claw-intro.mp4',poster:'vts-claw-intro.jpg',t:'Selamat datang di VTS-CLAW',d:'Model pembelajaran literasi kritis berbasis Visual Thinking Strategy untuk menulis akademik.',g:'radial-gradient(circle at 80% 20%,rgba(224,165,38,.28),transparent 45%),linear-gradient(135deg,#7d1a46,#3d0020)'}].concat(CAMPUS.map(function(c,i){
+var HS=[{video:'vts-claw-intro.mp4',poster:'vts-claw-intro.jpg',t:'VTS-CLAW',sub:'Model Pembelajaran Literasi Kritis Berbasis Visual Thinking Strategy untuk Pengembangan Keterampilan Menulis Akademik',d:'Belajar mengamati secara cermat, mempertanyakan secara kritis, menafsirkan berdasarkan bukti, dan membangun argumentasi akademik yang bermakna.',g:'radial-gradient(circle at 80% 20%,rgba(224,165,38,.28),transparent 45%),linear-gradient(135deg,#7d1a46,#3d0020)'}].concat(CAMPUS.map(function(c,i){
  var gs=['radial-gradient(circle at 15% 85%,rgba(224,165,38,.22),transparent 45%),linear-gradient(160deg,#6b0f3a,#2e0018)','radial-gradient(circle at 85% 80%,rgba(224,165,38,.25),transparent 45%),linear-gradient(120deg,#5a1236,#33001a)','radial-gradient(circle at 20% 15%,rgba(224,165,38,.22),transparent 45%),linear-gradient(145deg,#8a2250,#400022)','radial-gradient(circle at 70% 50%,rgba(224,165,38,.25),transparent 50%),linear-gradient(135deg,#660033,#2a0015)','radial-gradient(circle at 30% 70%,rgba(224,165,38,.22),transparent 45%),linear-gradient(150deg,#7a1b48,#380019)'];
  return {t:c.n,d:'Lokasi penelitian · '+c.k+'. '+c.d,g:gs[i%gs.length],img:c.img,alt:'Kampus '+c.n};
 }));
@@ -9064,7 +9116,10 @@ function carousel(track,dots,ms){
 function initCarousels(){
  carTimers.forEach(clearInterval);carTimers=[];
  var ht=document.getElementById('htrack');
- if(ht){ht.innerHTML=HS.map(function(s){return '<div class="hs" style="background:'+s.g+'">'+(s.img?imgTag('hbg',s.img,s.alt)+'<div class="hov"></div>':'')+'<div class="h2in'+(s.video?' hv':'')+'"><div class="htxt"><h1>'+s.t.replace(/VTS-CLAW/g,'<span style="white-space:nowrap">VTS-CLAW</span>')+'</h1><p>'+s.d+'</p><a class="btn" href="#materi">Mulai belajar</a></div>'+(s.video?'<div class="hvid"><video src="'+s.video+'" poster="'+s.poster+'" autoplay muted loop playsinline preload="auto" aria-label="Animasi logo VTS-CLAW" onerror="this.parentNode.remove()"></video></div>':'')+'</div></div>'}).join('');carousel(ht,document.getElementById('h2dots'),6000);if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){ht.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause()})}}
+ if(ht){ht.innerHTML=HS.map(function(s){
+  if(s.video){return '<div class="hs hsv" style="background:'+s.g+'"><video class="hbgv" src="'+s.video+'" poster="'+s.poster+'" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1" onerror="this.remove()"></video><div class="hovl"></div><div class="h2in"><h1>'+s.t+'</h1><h2 class="hsub">'+s.sub+'</h2><p>'+s.d+'</p><div class="hbtns"><a class="btn" href="#rps">Jelajahi Model</a><a class="btn ghost" href="#materi">Mulai Pembelajaran</a></div></div></div>'}
+  return '<div class="hs" style="background:'+s.g+'">'+(s.img?imgTag('hbg',s.img,s.alt)+'<div class="hov"></div>':'')+'<div class="h2in"><h1>'+s.t.replace(/VTS-CLAW/g,'<span style="white-space:nowrap">VTS-CLAW</span>')+'</h1><p>'+s.d+'</p><a class="btn" href="#materi">Mulai belajar</a></div></div>'
+ }).join('');carousel(ht,document.getElementById('h2dots'),6000);if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){ht.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause()})}}
  var st=document.getElementById('slc');
  if(st){st.innerHTML=SLIDES.map(function(s){var ext=s.x?' target="_blank" rel="noopener"':'';return '<div class="cslide"><div class="slide"><div><p class="src">'+s.src+'</p><h3>'+s.t+'</h3><p>'+s.d+'</p><a class="btn" href="'+s.h+'"'+ext+'>Selengkapnya</a></div><div class="shot"><b>'+s.src+'</b>'+(s.x?'<a class="btn" href="'+s.h+'" target="_blank" rel="noopener">'+s.b+'</a>':'')+'</div></div></div>'}).join('');carousel(st,document.getElementById('dots'),7000)}
 }
@@ -9301,44 +9356,69 @@ function bindVisual(id){
  document.getElementById('vpager').addEventListener('click',function(e){var b=e.target.closest('[data-p]');if(!b||b.disabled)return;VP.page=+b.dataset.p;visPaint();gal.scrollIntoView({block:'start',behavior:'smooth'})});
 }
 
-/* ===== Peta Konsep ===== */
-var PETA=[{
- f:'peta-konsep-sintaks.jpg',
- t:'Sintaks Model Pembelajaran Literasi Kritis Berbasis Visual Thinking Strategy',
- s:'Tujuh tahap pembelajaran VTS-CLAW dari mengamati visual sampai menulis dan merefleksi.',
- d:'Peta konsep ini menggambarkan alur besar model VTS-CLAW untuk mengembangkan keterampilan menulis akademik. Mahasiswa bergerak dari mengamati sebuah visual tanpa penilaian dini, menafsirkannya dengan bukti, berdialog dengan perspektif lain, mempertanyakan isu secara kritis, menelusuri sumber akademik, menyusun argumentasi, hingga menghasilkan tulisan dan merefleksikan prosesnya. Setiap tahap memuat tujuan, aktivitas utama, dan capaian proses.',
- steps:['Observasi Visual','Interpretasi Berbasis Bukti','Dialog Perspektif','Problematisasi Kritis','Penelusuran dan Kontekstualisasi Akademik','Konstruksi Argumentasi','Produksi, Redesain, dan Refleksi'],
- o:'Hasil pembelajaran: ketelitian observasional, interpretasi berbasis bukti, berpikir kritis dan analitis, argumentasi yang logis, serta tulisan akademik yang siap dipublikasikan.'
-}];
+/* ===== Peta Konsep (interaktif) ===== */
+var PK_STAGES=[
+ {n:1,c:'#1d4ed8',t:'Observasi Visual',f:'Mengamati',tujuan:'Mengembangkan ketelitian mengamati teks visual/multimodal tanpa penilaian dini.',aktivitas:['Mengamati visual secara cermat.','Mencatat objek, simbol, warna, posisi, ekspresi, serta detail penting.'],capaian:'Ketelitian observasi dan kesadaran terhadap fakta visual.'},
+ {n:2,c:'#15803d',t:'Interpretasi Berbasis Bukti',f:'Menafsirkan',tujuan:'Mengembangkan kemampuan menafsirkan visual berdasarkan bukti yang dapat ditunjukkan.',aktivitas:['Mengemukakan interpretasi.','Menunjukkan bukti visual yang mendukung interpretasi.'],capaian:'Kemampuan membangun tafsir yang didukung oleh evidensi visual.'},
+ {n:3,c:'#b45309',t:'Dialog Perspektif',f:'Mendialogkan',tujuan:'Mengembangkan keterbukaan dan kemampuan mempertimbangkan berbagai perspektif.',aktivitas:['Berdiskusi dan saling menyandingkan perspektif.','Mencari kemungkinan makna lain.'],capaian:'Keterbukaan perspektif, kemampuan dialogis, dan apresiasi perbedaan.'},
+ {n:4,c:'#b91c1c',t:'Problematisasi Kritis',f:'Mempertanyakan',tujuan:'Mengembangkan kesadaran kritis terhadap isu, akses, identitas, bias, dan persoalan sosial.',aktivitas:['Mengidentifikasi isu yang ditampilkan dan yang tidak ditampilkan.','Menganalisis dimensi kuasa, nilai, dan dampak.'],capaian:'Kesadaran kritis dan kemampuan menemukan isu yang relevan.'},
+ {n:5,c:'#6d28d9',t:'Penelusuran dan Kontekstualisasi Akademik',f:'Menelusuri',tujuan:'Menghubungkan isu visual dengan pengetahuan akademik melalui penelusuran sumber.',aktivitas:['Menentukan fokus pertanyaan akademik.','Mencari, mengevaluasi, dan mencatat sumber yang relevan.'],capaian:'Fokus akademik yang jelas, sumber kredibel, dan pemahaman konteks.'},
+ {n:6,c:'#0e7490',t:'Konstruksi Argumentasi',f:'Membangun posisi',tujuan:'Menyusun posisi akademik berbasis bukti dan penalaran yang logis.',aktivitas:['Merumuskan claim, data, warrant, backing, dan rebuttal.','Menguatkan posisi dengan sumber yang relevan.'],capaian:'Argumentasi akademik yang logis, sistematis, dan berbasis evidensi.'},
+ {n:7,c:'#1e40af',t:'Produksi, Redesain, dan Refleksi',f:'Menulis & merefleksikan',tujuan:'Menghasilkan tulisan akademik dan merefleksikan proses belajar serta perubahan cara pandang.',aktivitas:['Menulis draf akademik.','Melakukan peer review dan revisi substantif.','Melakukan refleksi proses.'],capaian:'Tulisan akademik yang kritis, argumentatif, reflektif, etis, dan siap dipublikasikan.'}
+];
+var PK_OUT={
+ hasil:{t:'Hasil Pembelajaran',c:'#1e3a8a',ic:'★',s:'Lihat rinciannya',d:'Hasil yang diharapkan setelah mahasiswa menjalani seluruh tahap pembelajaran.',items:['Ketelitian observasional dan kesadaran terhadap fakta visual.','Interpretasi berbasis evidensi dan keterbukaan perspektif.','Berpikir kritis dan analitis.','Argumentasi akademik yang logis, sistematis, dan berbasis sumber.','Tulisan akademik yang kritis, reflektif, dan siap dipublikasikan.']},
+ dampak:{t:'Dampak Pengiring',c:'#15803d',ic:'✦',s:'Disposisi dan kompetensi pendukung',d:'Disposisi dan kompetensi pendukung yang ikut berkembang selama proses pembelajaran.',items:['Literasi visual dan multimodal.','Kesadaran kritis terhadap relasi kuasa.','Keterampilan komunikasi dialogis.','Kolaborasi dan kerja sama.','Etika akademik dan integritas ilmiah.']}
+};
+var PK_ALL='Peta konsep ini menggambarkan alur besar model VTS-CLAW untuk mengembangkan keterampilan menulis akademik. Mahasiswa bergerak dari mengamati sebuah visual tanpa penilaian dini, menafsirkannya dengan bukti, berdialog dengan perspektif lain, mempertanyakan isu secara kritis, menelusuri sumber akademik, menyusun argumentasi, hingga menghasilkan tulisan dan merefleksikan prosesnya. Setiap tahap memuat tujuan, aktivitas utama, dan capaian proses.';
 function petaPage(){
  var grp=MENU[2];
  var chips=grp.sub.filter(function(x){return x[1]!=='peta-konsep'}).map(function(x){return '<a href="#'+x[1]+'">'+x[0]+'</a>'}).join('');
- return '<div class="page petapage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran</div><h2>Peta Konsep</h2><p>Klik peta konsep untuk melihat deskripsi singkatnya.</p>'+
- '<div class="pgrid">'+PETA.map(function(m,i){return '<button type="button" class="pcard" data-i="'+i+'" aria-label="Lihat deskripsi: '+esc(m.t)+'"><span class="pimg">'+visImg(m.f,m.t,'loading="lazy"')+'</span><span class="pbody"><b>'+esc(m.t)+'</b><span class="sd">'+esc(m.s)+'</span><span class="hint">Klik untuk deskripsi</span></span></button>'}).join('')+'</div>'+
- (chips?'<div class="chips" style="margin-top:22px">'+chips+'</div>':'')+'</div>';
+ var cards=PK_STAGES.map(function(s,i){return '<button type="button" class="pkc" data-k="s'+i+'"><span class="pkn" style="background:'+s.c+'">'+s.n+'</span><b>'+esc(s.t)+'</b><span class="pkm">Lihat detail ›</span></button>'}).join('');
+ var outs=['hasil','dampak'].map(function(k){var o=PK_OUT[k];return '<button type="button" class="pko" data-k="o:'+k+'"><span class="pki" style="background:'+o.c+'" aria-hidden="true">'+o.ic+'</span><span><b>'+esc(o.t)+'</b><span class="pkm">'+esc(o.s)+' ›</span></span></button>'}).join('');
+ var flow=PK_STAGES.map(function(s,i){return '<button type="button" class="pkf" data-k="s'+i+'">'+esc(s.f)+'</button>'+(i<PK_STAGES.length-1?'<span class="pka" aria-hidden="true">→</span>':'')}).join('');
+ return '<div class="page petapage"><div class="crumb"><a href="#beranda">Beranda</a> / Materi Pembelajaran / Peta Konsep</div><h2>Peta Konsep</h2><p>Hubungan antarkonsep.</p>'+
+ (chips?'<div class="chips" style="margin:6px 0 22px">'+chips+'</div>':'')+
+ '<p class="pkint">Sintaks Model Pembelajaran Literasi Kritis berbasis Visual Thinking Strategy untuk Pengembangan Keterampilan Menulis Akademik. Ketuk salah satu tahap untuk melihat tujuan, aktivitas utama, dan capaian prosesnya.</p>'+
+ '<div class="pkmap"><button type="button" class="pkroot" data-k="all"><b>VTS-CLAW</b><span>Visual Thinking Strategy – Critical Literacy and Academic Writing</span></button><div class="pkline" aria-hidden="true"></div><div class="pkgrid">'+cards+'</div></div>'+
+ '<h3 class="pkh">Capaian Model</h3><div class="pkouts">'+outs+'</div>'+
+ '<h3 class="pkh">Alur Besar Model</h3><div class="pkflow">'+flow+'</div></div>';
 }
-var plb=null;
-function plbClose(){if(!plb)return;plb.classList.remove('on');document.body.style.overflow='';if(plb.__ret&&plb.__ret.focus)plb.__ret.focus()}
-function bindPeta(id){
- if(plb)plbClose();
- if(id!=='peta-konsep')return;
- if(!plb){
-  plb=el('<div class="plb" role="dialog" aria-modal="true" aria-label="Deskripsi peta konsep"><button class="x" aria-label="Tutup">✕</button><div class="pin"><div class="pfig"></div><div class="pdesc"></div></div></div>');
-  document.body.appendChild(plb);
-  plb.querySelector('.x').addEventListener('click',plbClose);
-  plb.addEventListener('click',function(e){if(e.target===plb)plbClose()});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&plb.classList.contains('on'))plbClose()});
+var pkdlg=null,pkCur=null;
+function pkClose(){if(!pkdlg)return;pkdlg.classList.remove('on');document.body.style.overflow='';if(pkdlg.__ret&&pkdlg.__ret.focus)pkdlg.__ret.focus()}
+function pkOpen(k,ret){
+ var h='',nav='',color='#660033',badge='';
+ if(k==='all'){
+  h='<h3>VTS-CLAW</h3><p class="pks">Visual Thinking Strategy – Critical Literacy and Academic Writing</p><p>'+esc(PK_ALL)+'</p><p><b>Tujuh tahap model:</b></p><ol>'+PK_STAGES.map(function(s){return '<li>'+esc(s.t)+'</li>'}).join('')+'</ol><p><a class="pkbtn" href="peta-konsep-sintaks.jpg" target="_blank" rel="noopener">Buka infografis lengkap ↗</a></p>';
+ }else if(k.indexOf('o:')===0){
+  var o=PK_OUT[k.slice(2)];color=o.c;badge='<span class="pki" style="background:'+o.c+'" aria-hidden="true">'+o.ic+'</span>';
+  h='<h3>'+esc(o.t)+'</h3><p>'+esc(o.d)+'</p><ul>'+o.items.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>';
+ }else{
+  var i=+k.slice(1),s=PK_STAGES[i];color=s.c;badge='<span class="pkn" style="background:'+s.c+'">'+s.n+'</span>';
+  h='<h3>'+esc(s.t)+'</h3><p class="pks">Tahap '+s.n+' dari '+PK_STAGES.length+' · '+esc(s.f)+'</p><h4>Tujuan</h4><p>'+esc(s.tujuan)+'</p><h4>Aktivitas Utama</h4><ul>'+s.aktivitas.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul><h4>Capaian Proses</h4><p>'+esc(s.capaian)+'</p>';
+  nav='<div class="pknav">'+(i>0?'<button type="button" class="rbtn alt" data-k="s'+(i-1)+'">‹ Tahap '+i+'</button>':'<span></span>')+(i<PK_STAGES.length-1?'<button type="button" class="rbtn alt" data-k="s'+(i+1)+'">Tahap '+(i+2)+' ›</button>':'<span></span>')+'</div>';
  }
- app.querySelectorAll('.pcard').forEach(function(c){
-  c.addEventListener('click',function(){
-   var m=PETA[+c.dataset.i];
-   plb.querySelector('.pfig').innerHTML=visImg(m.f,m.t);
-   plb.querySelector('.pdesc').innerHTML='<h3>'+esc(m.t)+'</h3><p>'+esc(m.d)+'</p><p><b>Tahapan:</b></p><ol>'+m.steps.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol><p>'+esc(m.o)+'</p><a href="'+esc(m.f)+'" target="_blank" rel="noopener">Buka gambar penuh ↗</a>';
-   plb.__ret=c;plb.scrollTop=0;plb.classList.add('on');document.body.style.overflow='hidden';plb.querySelector('.x').focus();
+ if(!pkdlg){
+  pkdlg=el('<div class="pkd" role="dialog" aria-modal="true" aria-label="Deskripsi peta konsep"><div class="pkb"><button class="x" type="button" aria-label="Tutup">✕</button><div class="pkbd"></div></div></div>');
+  document.body.appendChild(pkdlg);
+  pkdlg.querySelector('.x').addEventListener('click',pkClose);
+  pkdlg.addEventListener('click',function(e){
+   if(e.target===pkdlg){pkClose();return}
+   var b=e.target.closest('[data-k]');if(b)pkOpen(b.dataset.k);
   });
- });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pkdlg.classList.contains('on'))pkClose()});
+ }
+ if(ret)pkdlg.__ret=ret;
+ var box=pkdlg.querySelector('.pkb');box.style.borderTopColor=color;
+ pkdlg.querySelector('.pkbd').innerHTML=(badge?'<div class="pkbadge">'+badge+'</div>':'')+h+nav;
+ pkdlg.querySelector('.pkb').scrollTop=0;
+ pkdlg.classList.add('on');document.body.style.overflow='hidden';pkdlg.querySelector('.x').focus();
 }
-
+function bindPeta(id){
+ if(pkdlg)pkClose();
+ if(id!=='peta-konsep')return;
+ app.querySelector('.petapage').addEventListener('click',function(e){var b=e.target.closest('[data-k]');if(b)pkOpen(b.dataset.k,b)});
+}
 /* ===== Fitur Interaksi: dasar ===== */
 var POLL=null;
 function slug(t){return String(t||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
@@ -9864,6 +9944,7 @@ async function initAuth(){
 }
 function route(){
  if(location.hash==='#modul-ajar'){location.replace('#materi');return}
+ if(location.hash==='#hack-king'){location.replace('#klinik-menulis');return}
  if(POLL){clearInterval(POLL);POLL=null}
  var id=location.hash.slice(1)||'beranda',h=id==='beranda'?home():(authPage(id)||inner(id));
  if(!h){id='beranda';h=home()}
