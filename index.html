@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -563,6 +563,46 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 .shot.has::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(60,0,32,0) 42%,rgba(60,0,32,.88) 100%)}
 .shot b,.shot .btn{position:relative;z-index:2}
 .shot{gap:14px;flex-wrap:wrap;align-content:flex-end;align-items:flex-end}
+/* ===== Tugas dan Proyek (kartu bernomor, bergaya berkas desain) ===== */
+.tplead{max-width:640px;margin:0 0 20px;opacity:.95}
+.tpsum{display:flex;align-items:center;gap:16px;margin:0 0 22px;font-weight:600;font-size:.95rem;flex-wrap:wrap}
+.tpbar{flex:1;min-width:160px;height:10px;border-radius:99px;background:rgba(255,255,227,.18);overflow:hidden}
+.tpbar i{display:block;height:100%;background:#FFFFE3;border-radius:99px;transition:width .6s ease}
+.tggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding-bottom:30px}
+.tcwrap{position:relative;display:flex}
+.tcard{flex:1;background:#3d001e;border-radius:28px;padding:22px 20px;box-shadow:0 10px 24px rgba(30,0,15,.4);display:flex;flex-direction:column;gap:8px;text-align:left;color:inherit;font:inherit;border:0;cursor:pointer;transition:transform .2s}
+.tcard:hover{transform:translateY(-4px)}
+.tcard:focus-visible,.tpbtn:focus-visible,.tpdrop:focus-within{outline:3px solid #FFFFE3;outline-offset:3px}
+.tno{width:36px;height:36px;border-radius:50%;background:#FFFFE3;color:#660033;display:grid;place-items:center;font-weight:700}
+.tcard h3{margin:4px 0 0;font-size:1.05rem;line-height:1.3;padding-right:44px}
+.tcard p{margin:0;font-size:.85rem;opacity:.85;flex:1}
+.tchip{align-self:flex-start;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:99px;border:1.5px solid #FFFFE3;display:inline-block}
+.tchip.ok{background:#e8bc4e;border-color:#e8bc4e;color:#3d001e}
+.tchip.nilai{background:#8fdc9b;border-color:#8fdc9b;color:#06310f}
+.tdel{position:absolute;top:14px;right:14px;border:1px solid rgba(255,255,227,.35);background:rgba(255,255,227,.08);color:#FFFFE3;border-radius:99px;padding:3px 12px;font:600 .75rem inherit;font-family:inherit;cursor:pointer}
+.tdel:hover{background:rgba(255,120,120,.3)}
+.tpcrumb{margin:6px 0 0;font-size:.85rem}.tpcrumb button{background:none;border:0;color:inherit;font:600 .85rem inherit;font-family:inherit;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:0}
+.tpdet{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:30px}
+.tpbox{background:#3d001e;border-radius:28px;padding:24px;min-width:0}
+.tpbox h3{margin:0 0 10px;font-size:1.1rem}
+.tpul{margin:0 0 14px;padding-left:20px;font-size:.92rem}
+.tpdesc{white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px;font-size:.92rem;line-height:1.6}
+.tpref{font-size:.85rem;opacity:.85;margin:0 0 6px}
+.tpfb{background:rgba(255,255,227,.07);border-radius:16px;padding:12px 14px;margin-top:14px;font-size:.88rem;overflow-wrap:anywhere}
+.tpdrop{display:block;border:2px dashed rgba(255,255,227,.28);border-radius:22px;padding:26px 16px;text-align:center;cursor:pointer;font-size:.9rem;transition:background .2s,border-color .2s;position:relative}
+.tpdrop.over,.tpdrop:hover{background:rgba(255,255,227,.08);border-color:#FFFFE3}
+.tpdrop input{position:absolute;opacity:0;width:1px;height:1px}
+.tpdrop b{display:block;font-size:.95rem;margin-bottom:2px}
+.tpbox textarea,.tpbox input[type=number]{width:100%;border-radius:16px;border:1.5px solid rgba(255,255,227,.28);background:rgba(255,255,227,.06);color:#FFFFE3;font:inherit;padding:10px 14px;resize:vertical}
+.tpbox textarea{margin:14px 0;min-height:84px}
+.tpfile{margin:12px 0 0;font-size:.85rem;font-weight:600;overflow-wrap:anywhere}
+.tpbtn{display:inline-block;background:#FFFFE3;color:#660033;font:700 .9rem inherit;font-family:inherit;padding:12px 26px;border-radius:99px;border:0;cursor:pointer}
+.tpbtn:hover{background:#f0efc4}.tpbtn[disabled]{opacity:.5;cursor:not-allowed}
+.tpmsg{margin:12px 0 0;font-size:.85rem;min-height:1.2em}
+.tpsubm{padding:12px 0;border-bottom:1px solid rgba(255,255,227,.2)}.tpsubm:last-child{border-bottom:0}
+.tpgrade{margin-top:10px}.tpgrade textarea{margin:6px 0 10px;min-height:60px}.tpgrade .rbtn{margin-right:10px}
+.tgform input,.tgform textarea{margin:0}
+@media (max-width:760px){.tpdet{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -9646,110 +9686,165 @@ async function rfLoad(){
  RF.list=r.data||[];rfRender();
 }
 /* ===== Tugas dan Proyek ===== */
-var TP={tugas:[],mine:{},all:{},prof:{}};
+var TP={tugas:[],mine:{},all:{},prof:{},cur:null,pick:null,form:false,nPes:0,bound:false};
+var TP_OK=/\.(pdf|docx?|pptx?|png|jpe?g|txt|md|csv)$/i,TP_MAX=20*1024*1024;
+var TP_MIME={pdf:'application/pdf',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',txt:'text/plain',md:'text/markdown',csv:'text/csv'};
+var TP_COLS='id,tugas_id,user_id,catatan,tautan,berkas_path,berkas_nama,updated_at,nilai,umpan_balik,dinilai_pada';
+function fkb(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function tugasPage(){
  if(!me)return loginBox('Tugas dan Proyek');
- var f=isDev()?'<form id="tgForm" class="tgform"><h3>Buat tugas baru</h3><input id="tgJudul" required maxlength="150" placeholder="Judul tugas atau proyek" aria-label="Judul tugas"><textarea id="tgDesk" rows="4" maxlength="5000" placeholder="Deskripsi dan petunjuk pengerjaan" aria-label="Deskripsi tugas"></textarea><label class="lbl">Tenggat (opsional)<input id="tgTenggat" type="datetime-local"></label><button class="rbtn" type="submit">Terbitkan tugas</button></form>':'';
- return shell('Tugas dan Proyek',isDev()?'Berikan tugas kepada peserta dan lihat hasil yang mereka kirim.':'Kerjakan tugas dari developer, lalu kirim hasilnya di sini.',f+'<div id="tgMsg" class="msg" role="status"></div><div id="tgList" class="tglist"><div class="empty">Memuat tugas…</div></div>','tugas-proyek');
+ TP.cur=null;TP.pick=null;TP.form=false;
+ return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / Interaksi dan Tugas</div><div id="tgRoot"><div class="empty">Memuat tugas…</div></div><div class="chips" style="margin-top:26px">'+igChips('tugas-proyek')+'</div></div>';
 }
-function tgSub(u){
- if(!u)return '';
- return (u.catatan?'<div class="tgct">'+esc(u.catatan)+'</div>':'')+(u.tautan?'<div><a href="'+esc(u.tautan)+'" target="_blank" rel="noopener noreferrer">'+esc(u.tautan)+'</a></div>':'')+(u.berkas_path?'<div><button type="button" class="rbtn alt" data-dl="'+esc(u.berkas_path)+'">⬇ '+esc(u.berkas_nama||'Berkas')+'</button></div>':'');
+function tpStatus(t){
+ var u=TP.mine[t.id];
+ if(!u)return ['Belum dikumpulkan',''];
+ return (u.nilai!=null||u.umpan_balik)?['Sudah dinilai','nilai']:['Sudah dikumpulkan','ok'];
 }
-function tgRender(){
- var l=document.getElementById('tgList');if(!l)return;
- if(!TP.tugas.length){l.innerHTML='<div class="empty">'+(isDev()?'Belum ada tugas. Terbitkan tugas pertama di atas.':'Belum ada tugas dari developer.')+'</div>';return}
- var dev=isDev(),now=Date.now();
- l.innerHTML=TP.tugas.map(function(t){
-  var due=t.tenggat?new Date(t.tenggat).getTime():null,late=due&&now>due;
-  var meta='Diterbitkan '+esc(fD(t.created_at))+(t.tenggat?' · Tenggat '+esc(fDT(t.tenggat))+(late?' <span class="st st-alpa">Lewat tenggat</span>':''):'');
-  var head='<h3>'+esc(t.judul)+'</h3><div class="tgm">'+meta+'</div>'+(t.deskripsi?'<div class="tgd">'+esc(t.deskripsi)+'</div>':'');
-  if(dev){
-   var subs=TP.all[t.id]||[];
-   var items=subs.map(function(u){var p=TP.prof[u.user_id]||{};var tl=due&&new Date(u.updated_at).getTime()>due;return '<div class="tgitem"><div><b>'+esc(p.nama||'Pengguna')+'</b> <span class="mut">'+esc(p.institusi||'')+'</span></div><div class="mut">Dikirim '+esc(fDT(u.updated_at))+(tl?' <span class="st st-alpa">Terlambat</span>':'')+'</div>'+tgSub(u)+'</div>'}).join('')||'<div class="mut">Belum ada pengumpulan.</div>';
-   return '<article class="tgc" data-t="'+esc(t.id)+'">'+head+'<div class="tgact"><button type="button" class="rbtn" data-act="subs">Lihat pengumpulan ('+subs.length+')</button><button type="button" class="rbtn alt" data-act="del">Hapus tugas</button></div><div class="tgsubs" hidden>'+items+'</div></article>';
-  }
-  var u=TP.mine[t.id];
-  var status=u?'<div class="tgs ok"><b>Terkirim</b> · '+esc(fDT(u.updated_at))+(due&&new Date(u.updated_at).getTime()>due?' <span class="st st-alpa">Terlambat</span>':'')+tgSub(u)+'</div>':'<div class="tgs">Belum dikirim</div>';
-  var form='<form class="tgsub" hidden><label class="lbl">Catatan<textarea name="catatan" rows="3" maxlength="5000" placeholder="Ringkasan hasil pekerjaan Anda">'+esc(u?u.catatan:'')+'</textarea></label><label class="lbl">Tautan (opsional)<input name="tautan" type="url" maxlength="500" placeholder="https://…" value="'+esc(u&&u.tautan?u.tautan:'')+'"></label><label class="lbl">Berkas (opsional, maks. 10 MB)<input name="berkas" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,.txt"></label>'+(u&&u.berkas_path?'<div class="mut">Berkas saat ini: '+esc(u.berkas_nama||'')+' (pilih berkas baru untuk menggantinya)</div>':'')+'<button class="rbtn" type="submit">'+(u?'Perbarui pengiriman':'Kirim hasil')+'</button></form>';
-  return '<article class="tgc" data-t="'+esc(t.id)+'">'+head+status+'<div class="tgact"><button type="button" class="rbtn'+(u?' alt':'')+'" data-act="form">'+(u?'Ubah pengiriman':'Kirim hasil')+'</button></div>'+form+'</article>';
- }).join('');
+function tpInstr(t){
+ var li=(t.instruksi||[]).map(function(x){return '<li>'+esc(x)+'</li>'}).join('');
+ return (li?'<ul class="tpul">'+li+'</ul>':'')+(t.deskripsi?'<div class="tpdesc">'+esc(t.deskripsi)+'</div>':'');
+}
+function tpSubInfo(u){
+ return (u.catatan?'<div class="tgct">Catatan: '+esc(u.catatan)+'</div>':'')+(u.tautan?'<div><a href="'+esc(u.tautan)+'" target="_blank" rel="noopener noreferrer">'+esc(u.tautan)+'</a></div>':'')+(u.berkas_path?'<div style="margin-top:6px"><button type="button" class="rbtn alt" data-dl="'+esc(u.berkas_path)+'">⬇ '+esc(u.berkas_nama||'Berkas')+'</button></div>':'');
+}
+function tpRender(){
+ var root=document.getElementById('tgRoot');if(!root)return;
+ var dev=isDev(),t=TP.cur?TP.tugas.filter(function(x){return x.id===TP.cur})[0]:null;
+ if(TP.cur&&!t)TP.cur=null;
+ root.innerHTML=t?tpDetail(t,dev):tpList(dev);
+}
+function tpList(dev){
+ var n=TP.tugas.length,done=TP.tugas.filter(function(t){return TP.mine[t.id]}).length;
+ var head='<h2>Tugas dan Proyek</h2><p class="tplead">'+(dev?'Tambah atau hapus tugas, lalu lihat dan nilai hasil yang dikirim peserta.':'Kerjakan tugas setiap tahap Visual Thinking Strategy, lalu unggah hasilnya di sini.')+'</p><div id="tgMsg" class="msg" role="status"></div>';
+ var sum=dev?'<div class="tpsum"><span>'+n+' tugas · '+TP.nPes+' peserta</span><button type="button" class="rbtn" data-act="addform">'+(TP.form?'Tutup form':'+ Tambah tugas')+'</button></div>':'<div class="tpsum"><span>'+done+' dari '+n+' tugas terkumpul</span><div class="tpbar" role="progressbar" aria-valuemin="0" aria-valuemax="'+n+'" aria-valuenow="'+done+'"><i style="width:'+(n?done/n*100:0)+'%"></i></div></div>';
+ var form=dev&&TP.form?'<form id="tgForm" class="tgform"><h3>Tugas baru</h3><input id="tgJudul" required maxlength="150" placeholder="Judul tugas atau proyek" aria-label="Judul tugas"><input id="tgTujuan" maxlength="500" placeholder="Tujuan singkat" aria-label="Tujuan"><textarea id="tgInstr" rows="4" placeholder="Instruksi — satu langkah per baris" aria-label="Instruksi"></textarea><input id="tgLembar" maxlength="300" placeholder="Lembar kerja / lampiran acuan (opsional)" aria-label="Lembar kerja"><input id="tgNilai" maxlength="300" placeholder="Acuan penilaian (opsional)" aria-label="Penilaian"><label class="lbl">Tenggat (opsional)<input id="tgTenggat" type="datetime-local"></label><div class="rfbtns"><button class="rbtn" type="submit">Terbitkan tugas</button><button class="rbtn alt" type="button" data-act="addform">Batal</button></div></form>':'';
+ var cards=n?TP.tugas.map(function(t,i){
+  var st=dev?[(TP.all[t.id]||[]).length+' pengumpulan',(TP.all[t.id]||[]).length?'ok':'']:tpStatus(t);
+  return '<div class="tcwrap"><button type="button" class="tcard" data-i="'+esc(t.id)+'"><span class="tno">'+(i+1)+'</span><h3>'+esc(t.judul)+'</h3><p>'+esc(t.tujuan||t.deskripsi||'')+'</p><span class="tchip '+st[1]+'">'+esc(st[0])+'</span></button>'+(dev?'<button type="button" class="tdel" data-del="'+esc(t.id)+'" aria-label="Hapus tugas '+esc(t.judul)+'">Hapus</button>':'')+'</div>';
+ }).join(''):'<div class="empty">'+(dev?'Belum ada tugas. Tambahkan tugas pertama.':'Belum ada tugas dari developer.')+'</div>';
+ return head+sum+form+'<div class="tggrid">'+cards+'</div>';
+}
+function tpDetail(t,dev){
+ var idx=TP.tugas.indexOf(t),st=tpStatus(t),u=TP.mine[t.id];
+ var due=t.tenggat?new Date(t.tenggat).getTime():null,late=due&&Date.now()>due;
+ var left='<section class="tpbox"><h3>Instruksi</h3>'+tpInstr(t)+(t.lembar?'<p class="tpref">Lembar kerja: '+esc(t.lembar)+'</p>':'')+(t.penilaian?'<p class="tpref">Penilaian: '+esc(t.penilaian)+'</p>':'')+(t.tenggat?'<p class="tpref">Tenggat: '+esc(fDT(t.tenggat))+(late?' <span class="st st-alpa">Lewat tenggat</span>':'')+'</p>':'');
+ var right;
+ if(dev){
+  var subs=TP.all[t.id]||[];
+  left+='<div class="tgact"><button type="button" class="rbtn alt" data-del="'+esc(t.id)+'">Hapus tugas</button></div></section>';
+  right='<section class="tpbox"><h3>Pengumpulan ('+subs.length+' dari '+TP.nPes+' peserta)</h3>'+(subs.length?subs.map(function(s){
+   var p=TP.prof[s.user_id]||{},tl=due&&new Date(s.updated_at).getTime()>due;
+   return '<div class="tpsubm" data-k="'+esc(s.id)+'"><div><b>'+esc(p.nama||'Pengguna')+'</b> <span class="mut">'+esc(p.institusi||'')+'</span></div><div class="mut">Dikirim '+esc(fDT(s.updated_at))+(tl?' <span class="st st-alpa">Terlambat</span>':'')+'</div>'+tpSubInfo(s)+'<form class="tpgrade"><label class="lbl">Nilai (0–100)<input name="nilai" type="number" min="0" max="100" step="0.5" value="'+(s.nilai!=null?esc(s.nilai):'')+'"></label><label class="lbl">Umpan balik<textarea name="umpan" rows="2" maxlength="2000">'+esc(s.umpan_balik||'')+'</textarea></label><button class="rbtn" type="submit">Simpan penilaian</button><span class="mut tpgm"></span></form></div>';
+  }).join(''):'<div class="mut">Belum ada pengumpulan.</div>')+'</section>';
+ }else{
+  var fb='<div class="tpfb"><b>Umpan balik dosen</b><br>'+(u&&(u.umpan_balik||u.nilai!=null)?esc(u.umpan_balik||'')+(u.nilai!=null?'<br>Nilai: '+esc(u.nilai):''):'Belum ada umpan balik.')+'</div>';
+  left+='<span class="tchip '+st[1]+'">'+esc(st[0])+'</span>'+fb+'</section>';
+  var f=TP.pick;
+  right='<section class="tpbox"><h3>Kumpulkan tugas</h3><label class="tpdrop" id="tgDz"><input type="file" id="tgFile" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg,.txt,.md,.csv"><b>Seret file ke sini atau tekan untuk memilih</b>PDF, Word, PowerPoint, gambar · maks. 20 MB</label><p class="tpfile" id="tgFn">'+(f?esc(f.name)+' · '+fkb(f.size):'')+'</p><textarea id="tgNote" rows="3" maxlength="5000" placeholder="Catatan untuk dosen (opsional)" aria-label="Catatan untuk dosen">'+esc(u?u.catatan:'')+'</textarea><button type="button" class="tpbtn" id="tgGo">'+(u?'Kirim ulang':'Kumpulkan')+'</button><p class="tpmsg" id="tgMs" role="status"></p>'+(u?'<div class="tpfb"><b>Terakhir dikumpulkan:</b><br>'+esc(fDT(u.updated_at))+tpSubInfo(u)+'</div>':'')+'</section>';
+ }
+ return '<div class="tpcrumb"><button type="button" data-act="back">← Semua tugas</button></div><h2>'+(idx+1)+'. '+esc(t.judul)+'</h2><p class="tplead">'+esc(t.tujuan||'')+'</p><div id="tgMsg" class="msg" role="status"></div><div class="tpdet">'+left+right+'</div>';
 }
 async function tgLoad(){
  var dev=isDev();
- var rt=await sb.from('tugas').select('id,judul,deskripsi,tenggat,created_at').order('created_at',{ascending:false});
- var l=document.getElementById('tgList');if(!l)return;
- if(rt.error){l.innerHTML='<div class="empty">Tugas belum dapat dimuat.</div>';return}
+ var rt=await sb.from('tugas').select('id,judul,tujuan,instruksi,lembar,penilaian,deskripsi,tenggat,created_at,urutan').order('urutan',{ascending:true,nullsFirst:false}).order('created_at',{ascending:true});
+ var root=document.getElementById('tgRoot');if(!root)return;
+ if(rt.error){root.innerHTML='<div class="empty">Tugas belum dapat dimuat.</div>';return}
  TP.tugas=rt.data||[];TP.mine={};TP.all={};
  if(dev){
-  var ru=await sb.from('tugas_kumpul').select('id,tugas_id,user_id,catatan,tautan,berkas_path,berkas_nama,updated_at').order('updated_at',{ascending:false});
-  var rp=await sb.from('profiles').select('id,nama,institusi');
-  TP.prof={};(rp.data||[]).forEach(function(p){TP.prof[p.id]=p});
-  (ru.data||[]).forEach(function(u){(TP.all[u.tugas_id]=TP.all[u.tugas_id]||[]).push(u)});
+  var ru=await sb.from('tugas_kumpul').select(TP_COLS).order('updated_at',{ascending:false});
+  var rp=await sb.from('profiles').select('id,nama,institusi,role');
+  TP.prof={};TP.nPes=0;(rp.data||[]).forEach(function(p){TP.prof[p.id]=p;if(p.role!=='developer')TP.nPes++});
+  (ru.data||[]).forEach(function(x){(TP.all[x.tugas_id]=TP.all[x.tugas_id]||[]).push(x)});
  }else{
-  var rm=await sb.from('tugas_kumpul').select('id,tugas_id,user_id,catatan,tautan,berkas_path,berkas_nama,updated_at').eq('user_id',me.id);
-  (rm.data||[]).forEach(function(u){TP.mine[u.tugas_id]=u});
+  var rm=await sb.from('tugas_kumpul').select(TP_COLS).eq('user_id',me.id);
+  (rm.data||[]).forEach(function(x){TP.mine[x.tugas_id]=x});
  }
- tgRender();
+ tpRender();
 }
-async function tgSubmit(form,t){
- var catatan=form.querySelector('[name=catatan]').value.trim(),tautan=form.querySelector('[name=tautan]').value.trim(),file=form.querySelector('[name=berkas]').files[0],old=TP.mine[t.id];
- if(tautan&&!/^https?:\/\//i.test(tautan))throw new Error('Tautan harus diawali http:// atau https://');
- if(!catatan&&!tautan&&!file&&!(old&&old.berkas_path))throw new Error('Isi catatan, tautan, atau lampirkan berkas.');
- if(file&&file.size>10*1024*1024)throw new Error('Ukuran berkas maksimal 10 MB.');
- var path=old?old.berkas_path:null,nama=old?old.berkas_nama:null;
+async function tpSubmit(t){
+ var note=document.getElementById('tgNote').value.trim(),file=TP.pick,old=TP.mine[t.id];
+ if(!file&&!(old&&old.berkas_path))throw new Error('Pilih file terlebih dahulu.');
+ var path=old?old.berkas_path:null,nama=old?old.berkas_nama:null,oldPath=null,np=null;
  if(file){
-  var np=me.id+'/'+t.id+'/'+Date.now()+'-'+file.name.replace(/[^A-Za-z0-9._-]+/g,'_').slice(-80);
-  var up=await sb.storage.from('tugas').upload(np,file,{contentType:file.type||'application/octet-stream',upsert:false});
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  np=me.id+'/'+t.id+'/'+Date.now()+'-'+file.name.replace(/[^A-Za-z0-9._-]+/g,'_').slice(-80);
+  var up=await sb.storage.from('tugas').upload(np,file,{contentType:TP_MIME[ext]||file.type||'application/octet-stream',upsert:false});
   if(up.error)throw up.error;
-  var oldPath=path;path=np;nama=file.name;
-  var r=await sb.from('tugas_kumpul').upsert({tugas_id:t.id,user_id:me.id,catatan:catatan,tautan:tautan||null,berkas_path:path,berkas_nama:nama,updated_at:new Date().toISOString()},{onConflict:'tugas_id,user_id'}).select('id,tugas_id,user_id,catatan,tautan,berkas_path,berkas_nama,updated_at').maybeSingle();
-  if(r.error){sb.storage.from('tugas').remove([np]);throw r.error}
-  if(oldPath)sb.storage.from('tugas').remove([oldPath]);
-  TP.mine[t.id]=r.data;return;
+  oldPath=path;path=np;nama=file.name;
  }
- var r2=await sb.from('tugas_kumpul').upsert({tugas_id:t.id,user_id:me.id,catatan:catatan,tautan:tautan||null,berkas_path:path,berkas_nama:nama,updated_at:new Date().toISOString()},{onConflict:'tugas_id,user_id'}).select('id,tugas_id,user_id,catatan,tautan,berkas_path,berkas_nama,updated_at').maybeSingle();
- if(r2.error)throw r2.error;
- TP.mine[t.id]=r2.data;
+ var r=await sb.rpc('kumpul_tugas',{p_tugas:t.id,p_catatan:note,p_tautan:old&&old.tautan?old.tautan:null,p_path:path,p_nama:nama});
+ if(r.error){if(np)sb.storage.from('tugas').remove([np]);throw r.error}
+ if(oldPath&&oldPath!==path)sb.storage.from('tugas').remove([oldPath]);
+ var row=Array.isArray(r.data)?r.data[0]:r.data;
+ TP.mine[t.id]=Object.assign({},old||{},row||{});TP.pick=null;
 }
 function bindTugas(id){
  if(id!=='tugas-proyek'||!me||!sb)return;
- var f=document.getElementById('tgForm');
- if(f)f.addEventListener('submit',async function(e){
-  e.preventDefault();note('tgMsg','');
-  var tg=document.getElementById('tgTenggat').value;
-  var r=await sb.from('tugas').insert({judul:document.getElementById('tgJudul').value.trim(),deskripsi:document.getElementById('tgDesk').value.trim(),tenggat:tg?new Date(tg).toISOString():null});
-  if(r.error){note('tgMsg',eMsg(r.error));return}
-  f.reset();note('tgMsg','Tugas diterbitkan.','ok');await tgLoad();
- });
- var l=document.getElementById('tgList');
- l.addEventListener('click',async function(e){
+ var root=document.getElementById('tgRoot');
+ root.addEventListener('click',async function(e){
   var dl=e.target.closest('[data-dl]');
   if(dl){
    var s=await sb.storage.from('tugas').createSignedUrl(dl.dataset.dl,60);
    if(s.error||!s.data){note('tgMsg','Berkas tidak dapat dibuka.');return}
    window.open(s.data.signedUrl,'_blank','noopener');return;
   }
-  var a=e.target.closest('[data-act]');if(!a)return;
-  var card=a.closest('.tgc'),t=TP.tugas.filter(function(x){return x.id===card.dataset.t})[0];if(!t)return;
-  if(a.dataset.act==='form'){var fm=card.querySelector('.tgsub');fm.hidden=!fm.hidden}
-  else if(a.dataset.act==='subs'){var sb2=card.querySelector('.tgsubs');sb2.hidden=!sb2.hidden}
-  else if(a.dataset.act==='del'){
+  var card=e.target.closest('.tcard');
+  if(card){TP.cur=card.dataset.i;TP.pick=null;tpRender();window.scrollTo(0,0);return}
+  var del=e.target.closest('[data-del]');
+  if(del){
+   var t=TP.tugas.filter(function(x){return x.id===del.dataset.del})[0];if(!t)return;
    if(!await devConfirm('Hapus tugas?','Tugas "'+t.judul+'" beserta semua pengumpulannya akan dihapus permanen.','Ya, hapus'))return;
    var paths=(TP.all[t.id]||[]).map(function(u){return u.berkas_path}).filter(Boolean);
    var r=await sb.from('tugas').delete().eq('id',t.id);
    if(r.error){note('tgMsg',eMsg(r.error));return}
    if(paths.length)sb.storage.from('tugas').remove(paths);
-   note('tgMsg','Tugas dihapus.','ok');await tgLoad();
+   TP.cur=null;await tgLoad();note('tgMsg','Tugas dihapus.','ok');return;
+  }
+  var a=e.target.closest('[data-act]');if(!a)return;
+  if(a.dataset.act==='back'){TP.cur=null;TP.pick=null;tpRender()}
+  else if(a.dataset.act==='addform'){TP.form=!TP.form;tpRender();if(TP.form)document.getElementById('tgJudul').focus()}
+  else if(a.dataset.act==='noop'){}
+ });
+ root.addEventListener('submit',async function(e){
+  e.preventDefault();
+  var f=e.target;
+  if(f.id==='tgForm'){
+   note('tgMsg','');
+   var tg=document.getElementById('tgTenggat').value,instr=document.getElementById('tgInstr').value.split('\n').map(function(x){return x.trim()}).filter(Boolean).slice(0,20);
+   var maxU=TP.tugas.reduce(function(m,x){return Math.max(m,x.urutan||0)},0);
+   var r=await sb.from('tugas').insert({judul:document.getElementById('tgJudul').value.trim(),tujuan:document.getElementById('tgTujuan').value.trim(),instruksi:instr,lembar:document.getElementById('tgLembar').value.trim()||null,penilaian:document.getElementById('tgNilai').value.trim()||null,tenggat:tg?new Date(tg).toISOString():null,urutan:maxU+1});
+   if(r.error){note('tgMsg',eMsg(r.error));return}
+   TP.form=false;await tgLoad();note('tgMsg','Tugas diterbitkan.','ok');return;
+  }
+  if(f.classList.contains('tpgrade')){
+   var box=f.closest('.tpsubm'),kid=box.dataset.k,nv=f.elements.nilai.value,um=f.elements.umpan.value.trim();
+   var msg=f.querySelector('.tpgm');msg.textContent='Menyimpan…';
+   var r2=await sb.rpc('nilai_tugas',{p_kumpul:kid,p_nilai:nv===''?null:Number(nv),p_umpan:um});
+   if(r2.error){msg.textContent=eMsg(r2.error);return}
+   Object.keys(TP.all).forEach(function(k){TP.all[k].forEach(function(x){if(x.id===kid){x.nilai=nv===''?null:Number(nv);x.umpan_balik=um||null}})});
+   msg.textContent='Tersimpan.';
   }
  });
- l.addEventListener('submit',async function(e){
-  var fm=e.target.closest('.tgsub');if(!fm)return;e.preventDefault();
-  var card=fm.closest('.tgc'),t=TP.tugas.filter(function(x){return x.id===card.dataset.t})[0],b=fm.querySelector('button[type=submit]');
-  b.disabled=true;note('tgMsg','');
-  try{await tgSubmit(fm,t);tgRender();note('tgMsg','Hasil berhasil dikirim.','ok')}catch(err){b.disabled=false;note('tgMsg',eMsg(err))}
+ root.addEventListener('change',function(e){
+  if(e.target.id==='tgFile')tpPick(e.target.files[0]);
+ });
+ ['dragenter','dragover'].forEach(function(ev){root.addEventListener(ev,function(e){var z=e.target.closest('#tgDz');if(z){e.preventDefault();z.classList.add('over')}})});
+ ['dragleave','drop'].forEach(function(ev){root.addEventListener(ev,function(e){var z=e.target.closest('#tgDz');if(z){e.preventDefault();z.classList.remove('over');if(ev==='drop')tpPick(e.dataTransfer.files[0])}})});
+ root.addEventListener('click',async function(e){
+  if(e.target.id!=='tgGo')return;
+  var t=TP.tugas.filter(function(x){return x.id===TP.cur})[0];if(!t)return;
+  var b=e.target,ms=document.getElementById('tgMs');b.disabled=true;ms.textContent='Mengunggah…';
+  try{await tpSubmit(t);tpRender();var m2=document.getElementById('tgMs');if(m2)m2.textContent='Berhasil dikumpulkan.'}
+  catch(err){b.disabled=false;ms.textContent=eMsg(err)}
  });
  tgLoad();
+}
+function tpPick(file){
+ var ms=document.getElementById('tgMs');if(!file)return;
+ if(!TP_OK.test(file.name)){if(ms)ms.textContent='Jenis file tidak didukung.';return}
+ if(file.size>TP_MAX){if(ms)ms.textContent='Ukuran file melebihi 20 MB.';return}
+ TP.pick=file;var fn=document.getElementById('tgFn');if(fn)fn.textContent=file.name+' · '+fkb(file.size);if(ms)ms.textContent='';
 }
 /* ===== Ruang Diskusi (grup bergaya WhatsApp) ===== */
 var DS={msgs:[],key:''},DSC=['#F0C766','#8fd3ff','#b6f0a8','#ffb4c8','#d1b3ff','#ffc08a','#9ee6e0','#f5a3f0'];
