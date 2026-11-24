@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -10042,7 +10042,9 @@ async function initAuth(){
  await loadProfile();renderAuthMenu();route();
  sb.auth.onAuthStateChange(function(ev,session){
   var nu=session?session.user:null;
-  if((nu&&nu.id)===(me&&me.id)&&ev!=='SIGNED_IN'&&ev!=='SIGNED_OUT')return;
+  /* Browser mengirim ulang SIGNED_IN saat tab kembali aktif (mis. setelah memilih file).
+     Gambar ulang halaman hanya jika pengguna benar-benar berganti (masuk/keluar). */
+  if((nu&&nu.id)===(me&&me.id)){if(nu)me=nu;return}
   me=nu;
   setTimeout(async function(){await loadProfile();renderAuthMenu();route()},0);
  });
