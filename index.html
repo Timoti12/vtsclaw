@@ -557,6 +557,12 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 .h2in .btn.ghost{background:transparent;color:#FFFFE3;border:2px solid #FFFFE3}
 .h2in .btn.ghost:hover{background:rgba(255,255,227,.16)}
 @media (max-width:700px){.hovl{background:linear-gradient(180deg,rgba(84,8,38,.9) 0%,rgba(104,18,54,.82) 55%,rgba(120,34,72,.7) 100%)}.hbgv{object-position:70% center}}
+
+/* ===== Pratinjau sumber di "Mengenal VTS-CLAW" ===== */
+.shot .shim{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left}
+.shot.has::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(60,0,32,0) 42%,rgba(60,0,32,.88) 100%)}
+.shot b,.shot .btn{position:relative;z-index:2}
+.shot{gap:14px;flex-wrap:wrap;align-content:flex-end;align-items:flex-end}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -9062,11 +9068,15 @@ function onScroll(){hd.classList.toggle('scrolled',window.scrollY>30)}
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
 var SLIDES=[
- {src:'vtshome.org',t:'VTS Institute: Berakar pada Riset, Disempurnakan lewat Praktik',d:'Lembaga asal yang melatih pendidik, profesional museum, dan dokter memimpin diskusi berbasis gambar selama lebih dari tiga dekade.',b:'Situs Resmi',h:'https://vtshome.org',x:1},
- {src:'Tentang Model',t:'Apa itu VTS-CLAW?',d:'Model pembelajaran yang memakai Visual Thinking Strategy untuk melatih literasi kritis dan menulis akademik mahasiswa.',b:'Selengkapnya',h:'#rps'},
- {src:'Sintaks',t:'Tiga pertanyaan inti dalam diskusi gambar',d:'Apa yang terjadi di gambar ini? Apa yang membuatmu berkata begitu? Apa lagi yang bisa kita temukan?',b:'Selengkapnya',h:'#observasi-visual'},
- {src:'Prosedur',t:'Dari mengamati gambar ke menulis akademik',d:'Mahasiswa mengamati, berargumen dengan bukti visual, lalu menuangkannya ke dalam tulisan akademik.',b:'Selengkapnya',h:'#prosedur'},
- {src:'Interaksi',t:'Belajar bersama di ruang diskusi',d:'Diskusi, tugas, kuis, dan refleksi tersedia dalam satu tempat untuk mendukung proses belajar.',b:'Selengkapnya',h:'#ruang-diskusi'}
+ {src:'vtshome.org',t:'VTS Institute: Berakar pada Riset, Disempurnakan lewat Praktik',d:'Lembaga asal yang melatih pendidik, profesional museum, dan dokter memimpin diskusi berbasis gambar selama lebih dari tiga dekade.',b:'Situs Resmi',h:'https://vtshome.org',x:1,i:'sumber-vtshome.jpg'},
+ {src:'libraryguides.mdc.edu',t:'Panduan Perpustakaan: Strategi Berpikir Visual',d:'Panduan dari Miami Dade College Learning Resources yang menjelaskan apa itu VTS, contoh penerapannya, dan bacaan lanjutan.',b:'Buka Sumber',h:'https://libraryguides.mdc.edu/vts',x:1,i:'sumber-mdc.jpg'},
+ {src:'utne.com',t:'Visual Thinking Strategies: Belajar Mengajar dengan Seni',d:'Tulisan Philip Yenawine (13 November 2013) tentang cara mengajar dengan seni melalui diskusi gambar.',b:'Buka Sumber',h:'https://www.utne.com/arts/learning-how-to-teach-with-art-ze0z1311zbla',x:1,i:'sumber-utne.jpg'},
+ {src:'vtshome.org/research',t:'Penelitian Dasar VTS: Pengembangan Estetika',d:'Halaman penelitian dasar VTS yang memuat gagasan Philip Yenawine tentang literasi visual dan perkembangan estetika.',b:'Buka Sumber',h:'https://vtshome.org/research/vts-foundational-research/',x:1,i:'sumber-vts-dasar.jpg'},
+ {src:'vtshome.org/research',t:'Riset dan Sumber Daya VTS',d:'Ringkasan riset di balik VTS, dari penelitian Abigail Housen hingga penerapannya dalam praktik, lengkap dengan bibliografi dan artikel penelitian.',b:'Buka Sumber',h:'https://vtshome.org/research/',x:1,i:'sumber-vts-riset.jpg'},
+ {src:'tandfonline.com · Education Inquiry',t:'Literasi Kritis dalam Pengajaran dan Penelitian',d:'Artikel Hilary Janks (2013) yang menjelaskan kerangka saling ketergantungan pendidikan literasi kritis beserta penerapannya.',b:'Buka Sumber',h:'https://www.tandfonline.com/doi/abs/10.3402/edui.v4i2.22071',x:1,i:'sumber-janks.jpg'},
+ {src:'journals.uchicago.edu',t:'Pendekatan Strategi Berpikir Visual dalam Pengajaran Penulisan Argumen',d:'Studi percontohan (Smolkowski dkk., 2020) yang mengevaluasi model pengembangan profesional untuk mengajarkan penulisan argumentasi dengan pendekatan berpikir visual.',b:'Buka Sumber',h:'https://www.journals.uchicago.edu/doi/10.1086/709984',x:1,i:'sumber-uchicago.jpg'},
+ {src:'tandfonline.com · Journal of Visual Literacy',t:'Strategi Berpikir Visual sebagai Alat Pedagogis di Denmark',d:'Artikel Shaun Nolan (2023) tentang harapan awal, penerapan, dan perspektif penggunaan VTS sebagai alat pedagogis di Denmark.',b:'Buka Sumber',h:'https://www.tandfonline.com/doi/full/10.1080/1051144X.2023.2261222',x:1,i:'sumber-nolan.jpg'},
+ {src:'pz.harvard.edu',t:'See, Think, Wonder: Rutinitas Berpikir Project Zero',d:'Rutinitas berpikir untuk mengamati dengan cermat dan membuat hubungan agar pemahaman semakin dalam: apa yang Anda lihat, pikirkan, dan pertanyakan?',b:'Buka Sumber',h:'https://pz.harvard.edu/resources/see-think-wonder',x:1,i:'sumber-pz.jpg'}
 ];
 var slideTimer=null;
 function ring(n,t,sub,href){
@@ -9121,7 +9131,7 @@ function initCarousels(){
   return '<div class="hs" style="background:'+s.g+'">'+(s.img?imgTag('hbg',s.img,s.alt)+'<div class="hov"></div>':'')+'<div class="h2in"><h1>'+s.t.replace(/VTS-CLAW/g,'<span style="white-space:nowrap">VTS-CLAW</span>')+'</h1><p>'+s.d+'</p><a class="btn" href="#materi">Mulai belajar</a></div></div>'
  }).join('');carousel(ht,document.getElementById('h2dots'),6000);if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){ht.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause()})}}
  var st=document.getElementById('slc');
- if(st){st.innerHTML=SLIDES.map(function(s){var ext=s.x?' target="_blank" rel="noopener"':'';return '<div class="cslide"><div class="slide"><div><p class="src">'+s.src+'</p><h3>'+s.t+'</h3><p>'+s.d+'</p><a class="btn" href="'+s.h+'"'+ext+'>Selengkapnya</a></div><div class="shot"><b>'+s.src+'</b>'+(s.x?'<a class="btn" href="'+s.h+'" target="_blank" rel="noopener">'+s.b+'</a>':'')+'</div></div></div>'}).join('');carousel(st,document.getElementById('dots'),7000)}
+ if(st){st.innerHTML=SLIDES.map(function(s){var ext=s.x?' target="_blank" rel="noopener"':'';return '<div class="cslide"><div class="slide"><div><p class="src">'+s.src+'</p><h3>'+s.t+'</h3><p>'+s.d+'</p><a class="btn" href="'+s.h+'"'+ext+'>Selengkapnya</a></div><div class="shot'+(s.i?' has':'')+'">'+(s.i?'<img class="shim" src="'+s.i+'" alt="Tangkapan layar '+s.src+'" loading="lazy" decoding="async" onerror="if(!this.dataset.t){this.dataset.t=1;this.src=\'img/\'+this.getAttribute(\'src\')}else{this.remove()}">':'')+'<b>'+s.src+'</b>'+(s.x?'<a class="btn" href="'+s.h+'" target="_blank" rel="noopener">'+s.b+'</a>':'')+'</div></div></div>'}).join('');carousel(st,document.getElementById('dots'),7000)}
 }
 var USER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>';
 var PEOPLE={
