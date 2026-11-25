@@ -9489,10 +9489,28 @@ function instVal(id){var s=document.getElementById(id),v=s?s.value:'';if(v==='__
 /* ===== Presensi ===== */
 function presensiPage(){
  if(!me)return loginBox('Presensi');
+ if(!isDev())return shell('Presensi','Laporan kehadiran Anda pada setiap pertemuan.','<div id="prList" class="empty">Memuat laporan kehadiran…</div>','presensi');
  return shell('Presensi','Pilih nama kampus untuk membuka halaman presensinya.','<div id="prList" class="empty">Memuat daftar kampus…</div>','presensi');
+}
+async function presensiSaya(){
+ var res;try{res=await sb.rpc('presensi_saya')}catch(e){res={error:e}}
+ var box=document.getElementById('prList');if(!box)return;
+ if(res.error){box.className='empty';box.textContent='Laporan kehadiran belum dapat dimuat. Coba muat ulang halaman.';return}
+ var rows=res.data||[];
+ if(!rows.length){box.className='empty';box.textContent='Belum ada pertemuan untuk kampus Anda.';return}
+ var c={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
+ rows.forEach(function(r){c[r.status||'belum']=(c[r.status||'belum']||0)+1});
+ var pct=Math.round(c.hadir/rows.length*100);
+ box.className='';
+ box.innerHTML='<p class="mut" style="margin:0 0 12px">'+esc((profile&&profile.institusi)||'')+'</p>'+
+ '<div class="dstats">'+[['Hadir',c.hadir],['Izin',c.izin],['Sakit',c.sakit],['Alpa',c.alpa],['Belum diisi',c.belum]].map(function(x){return '<div class="dst"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join('')+'</div>'+
+ '<div class="tpsum"><span>Kehadiran '+pct+'% ('+c.hadir+' dari '+rows.length+' pertemuan)</span><div class="tpbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><i style="width:'+pct+'%"></i></div></div>'+
+ '<div class="tblwrap"><table style="min-width:0"><thead><tr><th>Pertemuan</th><th>Tanggal</th><th>Status</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+esc(r.judul)+'</td><td>'+esc(fD(r.tanggal))+'</td><td>'+(r.status?'<span class="st st-'+esc(r.status)+'">'+esc(ST[r.status]||r.status)+'</span>':'<span class="mut">Belum diisi</span>')+'</td></tr>'}).join('')+'</tbody></table></div>'+
+ '<p class="mut" style="margin-top:12px;font-size:.9rem">Presensi diisi oleh developer.</p>';
 }
 async function bindPresensi(id){
  if(id!=='presensi'||!me||!sb)return;
+ if(!isDev()){await presensiSaya();return}
  var res;try{res=await sb.rpc('presensi_kampus')}catch(e){res={error:e}}
  var box=document.getElementById('prList');if(!box)return;
  if(res.error){box.textContent='Daftar kampus belum dapat dimuat. Coba muat ulang halaman.';return}
@@ -9507,6 +9525,7 @@ var PK={key:'',sessions:[],sel:null,roster:[]},ST={hadir:'Hadir',izin:'Izin',sak
 function campusName(k){var c=CAMPUS.filter(function(c){return slug(c.n)===k})[0];return c?c.n:null}
 function presensiKampusPage(id){
  if(!me)return loginBox('Presensi');
+ if(!isDev()){setTimeout(function(){location.replace('#presensi')},0);return presensiPage()}
  var k=id.slice(9),n=campusName(k)||'Presensi kampus';
  var form=isDev()?'<form id="pkForm" class="pkform"><input id="pkJudul" required maxlength="150" placeholder="Judul pertemuan, mis. Pertemuan 1" aria-label="Judul pertemuan"><input id="pkTgl" type="date" required aria-label="Tanggal pertemuan"><button class="rbtn" type="submit">Tambah pertemuan</button></form>':'';
  return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / <a href="#presensi">Presensi</a></div><h2 id="pkTitle">'+esc(n)+'</h2><p>'+(isDev()?'Pilih pertemuan, lalu isi kehadiran peserta.':'Pilih pertemuan untuk melihat kehadiran. Presensi diisi oleh developer.')+'</p>'+form+'<div id="pkMsg" class="msg" role="status"></div><div id="pkBody" class="empty">Memuat pertemuan…</div></div>';
@@ -9539,7 +9558,7 @@ function pkRender(){
  b.innerHTML=tabs+head+'<div class="tblwrap"><table style="min-width:0"><thead><tr><th>Nama</th><th>Kehadiran</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 function bindPresensiKampus(id){
- if(id.indexOf('presensi-')!==0||!me||!sb)return;
+ if(id.indexOf('presensi-')!==0||!me||!sb||!isDev())return;
  PK={key:id.slice(9),sessions:[],sel:null,roster:[]};
  var t=document.getElementById('pkTgl');if(t)t.value=new Date().toISOString().slice(0,10);
  var f=document.getElementById('pkForm');
