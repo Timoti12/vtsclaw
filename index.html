@@ -603,6 +603,23 @@ td select{padding:7px 10px;border-radius:12px;border:1px solid var(--line);backg
 .tpgrade{margin-top:10px}.tpgrade textarea{margin:6px 0 10px;min-height:60px}.tpgrade .rbtn{margin-right:10px}
 .tgform input,.tgform textarea{margin:0}
 @media (max-width:760px){.tpdet{grid-template-columns:1fr}}
+/* ===== Kuis ===== */
+.kqs{border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:0 0 12px;min-width:0}
+.kqs legend{padding:0 8px;font-weight:700}
+.kqp,.kqt{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;margin:4px 0}
+.kqopts{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.kqo{display:flex;align-items:center;gap:8px}.kqo input[type=radio]{accent-color:var(--gold);width:18px;height:18px;flex:0 0 auto}
+.kqq{border:0;padding:0;margin:0 0 22px}.kqq legend{font-weight:700;margin-bottom:8px;padding:0}
+.kqch{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;margin:6px 0;border:1.5px solid rgba(255,255,227,.25);border-radius:14px;cursor:pointer}
+.kqch:hover{background:rgba(255,255,227,.07)}.kqch:has(input:checked){border-color:var(--gold);background:rgba(224,165,38,.16)}
+.kqch input{accent-color:var(--gold);margin-top:3px}
+.kqres{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0}.kqres span{opacity:.85}.kqres b{font-size:3.4rem;line-height:1.1;color:var(--gold)}.kqres small{opacity:.85}
+.kqr{padding:12px 0;border-bottom:1px solid rgba(255,255,227,.18)}.kqr:last-child{border-bottom:0}
+.kqop{padding:6px 12px;margin:4px 0;border-radius:10px;border:1.5px solid transparent;font-size:.92rem}
+.kqop.ok{border-color:#7fd99a;background:rgba(120,230,160,.14)}.kqop.bad{border-color:#ff9a9a;background:rgba(255,120,120,.14)}.kqop em{font-style:normal;font-size:.8rem;opacity:.9}
+.tpbox .kqsc,.kqsc{width:96px;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.kqact{white-space:nowrap}
+@media (max-width:640px){.kqopts{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -9229,6 +9246,7 @@ function inner(id){
  if(id==='tugas-proyek')return tugasPage();
  if(id==='refleksi')return refleksiPage();
  if(id==='pojok-curhat')return curhatPage();
+ if(id==='kuis')return kuisPage();
  if(id==='ruang-diskusi')return diskusiPage();
  if(id==='peta-konsep')return petaPage();
  if(id==='visual')return visualPage();
@@ -9866,6 +9884,182 @@ function tpPick(file){
  if(file.size>TP_MAX){if(ms)ms.textContent='Ukuran file melebihi 20 MB.';return}
  TP.pick=file;var fn=document.getElementById('tgFn');if(fn)fn.textContent=file.name+' · '+fkb(file.size);if(ms)ms.textContent='';
 }
+/* ===== Kuis ===== */
+var KQ={list:[],cur:null,form:false,soal:[],hasil:[],prof:{},ulasan:[],mine:null,nSoalSeq:0};
+function kfmt(n){return n==null?'':String(Number(n))}
+function kuisPage(){
+ if(!me)return loginBox('Kuis');
+ KQ.cur=null;KQ.form=false;
+ return '<div class="page igpage"><div class="crumb"><a href="#beranda">Beranda</a> / Interaksi dan Tugas</div><div id="kqRoot"><div class="empty">Memuat kuis…</div></div><div class="chips" style="margin-top:26px">'+igChips('kuis')+'</div></div>';
+}
+function kqCur(){return KQ.cur?KQ.list.filter(function(x){return x.id===KQ.cur})[0]:null}
+function kqRender(){
+ var root=document.getElementById('kqRoot');if(!root)return;
+ var k=kqCur();if(KQ.cur&&!k)KQ.cur=null;
+ root.innerHTML=k?(isDev()?kqDetailDev(k):kqDetailPeserta(k)):kqList();
+}
+function kqSoalBlock(n){
+ var i=KQ.nSoalSeq++;
+ var opts=['A','B','C','D'].map(function(l,j){return '<label class="kqo"><input type="radio" name="kk'+i+'" value="'+j+'" aria-label="Jawaban benar '+l+'"><input class="kqt" maxlength="200" placeholder="Pilihan '+l+'" aria-label="Pilihan '+l+'"></label>'}).join('');
+ return '<fieldset class="kqs"><legend>Soal</legend><input class="kqp" maxlength="500" placeholder="Pertanyaan" aria-label="Pertanyaan"><div class="kqopts">'+opts+'</div><p class="mut" style="margin:6px 0 8px;font-size:.82rem">Pilih lingkaran di samping jawaban yang benar. Pilihan boleh kurang dari 4 (minimal 2).</p><button type="button" class="rbtn alt" data-act="delsoal">Hapus soal</button></fieldset>';
+}
+function kqList(){
+ var dev=isDev(),n=KQ.list.length;
+ var head='<h2>Kuis</h2><p class="tplead">'+(dev?'Buat kuis, kelola soal, serta tambah atau ubah skor peserta.':'Kerjakan kuis dari developer. Skor Anda tampil setelah menjawab.')+'</p><div id="kqMsg" class="msg" role="status"></div>';
+ var sum=dev?'<div class="tpsum"><span>'+n+' kuis</span><button type="button" class="rbtn" data-act="addform">'+(KQ.form?'Tutup form':'+ Buat kuis')+'</button></div>':'<div class="tpsum"><span>'+KQ.list.filter(function(x){return x.sudah}).length+' dari '+n+' kuis sudah dikerjakan</span></div>';
+ var form=dev&&KQ.form?'<form id="kqForm" class="tgform"><h3>Kuis baru</h3><input id="kqJudul" required maxlength="150" placeholder="Judul kuis" aria-label="Judul kuis"><textarea id="kqDesk" rows="2" maxlength="2000" placeholder="Deskripsi atau petunjuk (opsional)" aria-label="Deskripsi"></textarea><div id="kqSoalList"></div><div class="rfbtns"><button type="button" class="rbtn alt" data-act="addsoal">+ Tambah soal</button></div><p class="mut" style="margin:0;font-size:.85rem">Kosongkan soal bila kuis dinilai langsung (skor diisi manual oleh developer).</p><div class="rfbtns"><button class="rbtn" type="submit">Terbitkan kuis</button><button type="button" class="rbtn alt" data-act="addform">Batal</button></div></form>':'';
+ var cards=n?KQ.list.map(function(k,i){
+  var st=dev?[k.jumlah_hasil+' hasil',Number(k.jumlah_hasil)?'ok':'']:(k.sudah?['Skor '+kfmt(k.skor),'nilai']:(k.terbuka?['Belum dikerjakan','']:['Ditutup','']));
+  return '<div class="tcwrap"><button type="button" class="tcard" data-k="'+esc(k.id)+'"><span class="tno">'+(n-i)+'</span><h3>'+esc(k.judul)+'</h3><p>'+esc(k.jumlah_soal+' soal · '+(k.terbuka?'Terbuka':'Ditutup'))+(k.deskripsi?' — '+esc(k.deskripsi.slice(0,90)):'')+'</p><span class="tchip '+st[1]+'">'+esc(st[0])+'</span></button>'+(dev?'<button type="button" class="tdel" data-del="'+esc(k.id)+'" aria-label="Hapus kuis '+esc(k.judul)+'">Hapus</button>':'')+'</div>';
+ }).join(''):'<div class="empty">'+(dev?'Belum ada kuis. Buat kuis pertama.':'Belum ada kuis dari developer.')+'</div>';
+ return head+sum+form+'<div class="tggrid">'+cards+'</div>';
+}
+function kqReview(){
+ return KQ.ulasan.map(function(s,i){
+  return '<div class="kqr"><b>'+(i+1)+'. '+esc(s.pertanyaan)+'</b>'+s.pilihan.map(function(p,j){
+   var c=j===s.kunci?' ok':(j===s.pilih?' bad':'');
+   return '<div class="kqop'+c+'"><span>'+String.fromCharCode(65+j)+'.</span> '+esc(p)+(j===s.kunci?' <em>✓ jawaban benar</em>':'')+(j===s.pilih&&j!==s.kunci?' <em>✗ jawaban Anda</em>':'')+(j===s.pilih&&j===s.kunci?' <em>(jawaban Anda)</em>':'')+'</div>';
+  }).join('')+(s.pilih==null?'<div class="mut" style="font-size:.85rem">Tidak dijawab.</div>':'')+'</div>';
+ }).join('');
+}
+function kqDetailPeserta(k){
+ var back='<div class="tpcrumb"><button type="button" data-act="back">← Semua kuis</button></div><h2>'+esc(k.judul)+'</h2>'+(k.deskripsi?'<p class="tplead">'+esc(k.deskripsi)+'</p>':'')+'<div id="kqMsg" class="msg" role="status"></div>';
+ if(k.sudah){
+  var m=KQ.mine||{};
+  return back+'<section class="tpbox"><div class="kqres"><span>Skor Anda</span><b>'+esc(kfmt(k.skor))+'</b>'+(m.total!=null?'<small>'+m.benar+' benar dari '+m.total+' soal</small>':'')+(m.manual?'<small>Skor diisi oleh developer</small>':'')+'</div>'+(m.catatan?'<div class="tpfb"><b>Catatan developer</b><br>'+esc(m.catatan)+'</div>':'')+'</section>'+(KQ.ulasan.length?'<section class="tpbox" style="margin-top:18px"><h3>Ulasan jawaban</h3>'+kqReview()+'</section>':'');
+ }
+ if(!k.terbuka)return back+'<section class="tpbox"><p>Kuis ini sudah ditutup.</p></section>';
+ if(!Number(k.jumlah_soal))return back+'<section class="tpbox"><p>Kuis ini dinilai langsung oleh developer. Skor Anda akan tampil di sini setelah diisi.</p></section>';
+ if(!KQ.soal.length)return back+'<div class="empty">Memuat soal…</div>';
+ return back+'<form id="kqTake" class="tpbox">'+KQ.soal.map(function(s,i){
+  return '<fieldset class="kqq"><legend>'+(i+1)+'. '+esc(s.pertanyaan)+'</legend>'+s.pilihan.map(function(p,j){return '<label class="kqch"><input type="radio" name="q'+esc(s.id)+'" value="'+j+'"><span>'+String.fromCharCode(65+j)+'. '+esc(p)+'</span></label>'}).join('')+'</fieldset>';
+ }).join('')+'<button type="submit" class="tpbtn">Kirim jawaban</button><p class="tpmsg" id="kqTm" role="status"></p></form>';
+}
+function kqDetailDev(k){
+ var hasilBy={};KQ.hasil.forEach(function(h){hasilBy[h.user_id]=h});
+ var peserta=Object.keys(KQ.prof).map(function(id){return KQ.prof[id]}).filter(function(p){return p.role!=='developer'}).sort(function(a,b){return String(a.nama).localeCompare(String(b.nama),'id')});
+ var skors=KQ.hasil.map(function(h){return Number(h.skor)}),avg=skors.length?(skors.reduce(function(a,b){return a+b},0)/skors.length):null;
+ var soalH=KQ.soal.length?KQ.soal.map(function(s,i){return '<div class="kqr"><b>'+(i+1)+'. '+esc(s.pertanyaan)+'</b>'+s.pilihan.map(function(p,j){return '<div class="kqop'+(j===s.kunci?' ok':'')+'"><span>'+String.fromCharCode(65+j)+'.</span> '+esc(p)+(j===s.kunci?' <em>✓ kunci</em>':'')+'</div>'}).join('')+'</div>'}).join(''):'<p class="mut">Kuis tanpa soal — skor diisi manual pada tabel di bawah.</p>';
+ var rows=peserta.map(function(p){
+  var h=hasilBy[p.id];
+  var badge=h?(h.manual?'<span class="st st-izin">Manual</span>':'<span class="st st-hadir">Otomatis '+esc(h.benar)+'/'+esc(h.total)+'</span>'):'<span class="mut">Belum</span>';
+  return '<tr class="kqrow" data-u="'+esc(p.id)+'"><td>'+esc(p.nama)+'</td><td>'+esc(p.institusi)+'</td><td><input class="kqsc" type="number" min="0" max="100" step="0.5" value="'+(h?esc(kfmt(h.skor)):'')+'" aria-label="Skor '+esc(p.nama)+'"></td><td>'+badge+'</td><td class="kqact"><button type="button" class="rbtn" data-act="simpan">Simpan</button>'+(h?' <button type="button" class="rbtn alt" data-act="reset">Reset</button>':'')+'</td></tr>';
+ }).join('')||'<tr><td colspan="5">Belum ada peserta.</td></tr>';
+ return '<div class="tpcrumb"><button type="button" data-act="back">← Semua kuis</button></div><h2>'+esc(k.judul)+'</h2>'+(k.deskripsi?'<p class="tplead">'+esc(k.deskripsi)+'</p>':'')+'<div id="kqMsg" class="msg" role="status"></div>'+
+ '<div class="tpsum"><span>'+esc(k.terbuka?'Terbuka':'Ditutup')+' · '+KQ.soal.length+' soal · '+KQ.hasil.length+' dari '+peserta.length+' peserta punya skor'+(avg!=null?' · rata-rata '+(Math.round(avg*10)/10):'')+'</span><button type="button" class="rbtn alt" data-act="toggle">'+(k.terbuka?'Tutup kuis':'Buka kuis')+'</button><button type="button" class="rbtn alt" data-del="'+esc(k.id)+'">Hapus kuis</button></div>'+
+ '<section class="tpbox"><h3>Soal dan kunci</h3>'+soalH+'</section>'+
+ '<section class="tpbox" style="margin-top:18px"><h3>Skor peserta</h3><p class="mut" style="margin:0 0 10px;font-size:.88rem">Isi atau ubah skor siapa saja (0–100), lalu tekan Simpan. Reset menghapus skor agar peserta dapat mengerjakan ulang.</p><div class="tblwrap"><table style="min-width:640px"><thead><tr><th>Nama</th><th>Institusi</th><th>Skor</th><th>Status</th><th>Aksi</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+}
+async function kqLoad(){
+ var r=await sb.rpc('kuis_daftar');
+ var root=document.getElementById('kqRoot');if(!root)return;
+ if(r.error){root.innerHTML='<div class="empty">Kuis belum dapat dimuat.</div>';return}
+ KQ.list=r.data||[];kqRender();
+}
+async function kqOpen(id){
+ KQ.cur=id;KQ.soal=[];KQ.hasil=[];KQ.ulasan=[];KQ.mine=null;
+ var k=kqCur();if(!k)return;
+ if(isDev()){
+  var a=await sb.from('kuis_soal').select('id,urutan,pertanyaan,pilihan,kunci').eq('kuis_id',id).order('urutan',{ascending:true});
+  var b=await sb.from('kuis_hasil').select('id,user_id,skor,benar,total,manual,catatan,dikerjakan_pada').eq('kuis_id',id);
+  var c=await sb.from('profiles').select('id,nama,institusi,role');
+  KQ.soal=a.data||[];KQ.hasil=b.data||[];KQ.prof={};(c.data||[]).forEach(function(p){KQ.prof[p.id]=p});
+  kqRender();
+ }else{
+  kqRender();
+  if(k.sudah){
+   var u=await sb.rpc('kuis_ulasan',{p_kuis:id});KQ.ulasan=u.data||[];
+   var m=await sb.from('kuis_hasil').select('skor,benar,total,manual,catatan').eq('kuis_id',id).eq('user_id',me.id).maybeSingle();
+   KQ.mine=(Array.isArray(m.data)?m.data[0]:m.data)||{};
+  }else if(k.terbuka&&Number(k.jumlah_soal)){
+   var s=await sb.rpc('kuis_soal_peserta',{p_kuis:id});KQ.soal=s.data||[];
+  }
+  if(KQ.cur===id)kqRender();
+ }
+ window.scrollTo(0,0);
+}
+function bindKuis(id){
+ if(id!=='kuis'||!me||!sb)return;
+ var root=document.getElementById('kqRoot');
+ root.addEventListener('click',async function(e){
+  var del=e.target.closest('[data-del]');
+  if(del){
+   var k=KQ.list.filter(function(x){return x.id===del.dataset.del})[0];if(!k)return;
+   if(!await devConfirm('Hapus kuis?','Kuis "'+k.judul+'" beserta soal dan semua skornya akan dihapus permanen.','Ya, hapus'))return;
+   var r=await sb.from('kuis').delete().eq('id',k.id);
+   if(r.error){note('kqMsg',eMsg(r.error));return}
+   KQ.cur=null;await kqLoad();note('kqMsg','Kuis dihapus.','ok');return;
+  }
+  var card=e.target.closest('.tcard');
+  if(card){kqOpen(card.dataset.k);return}
+  var a=e.target.closest('[data-act]');if(!a)return;
+  var act=a.dataset.act,k=kqCur();
+  if(act==='back'){KQ.cur=null;await kqLoad()}
+  else if(act==='addform'){KQ.form=!KQ.form;kqRender();if(KQ.form){KQ.nSoalSeq=0;var L=document.getElementById('kqSoalList');L.insertAdjacentHTML('beforeend',kqSoalBlock());document.getElementById('kqJudul').focus()}}
+  else if(act==='addsoal'){var L2=document.getElementById('kqSoalList');if(L2)L2.insertAdjacentHTML('beforeend',kqSoalBlock())}
+  else if(act==='delsoal'){var fs=a.closest('.kqs');if(fs)fs.remove()}
+  else if(act==='toggle'&&k){
+   var r2=await sb.from('kuis').update({terbuka:!k.terbuka}).eq('id',k.id);
+   if(r2.error){note('kqMsg',eMsg(r2.error));return}
+   k.terbuka=!k.terbuka;kqRender();note('kqMsg',k.terbuka?'Kuis dibuka.':'Kuis ditutup.','ok');
+  }else if(act==='simpan'&&k){
+   var row=a.closest('.kqrow'),uid=row.dataset.u,v=row.querySelector('.kqsc').value;
+   if(v===''){note('kqMsg','Isi skor 0–100 terlebih dahulu.');return}
+   a.disabled=true;
+   var r3=await sb.rpc('skor_kuis',{p_kuis:k.id,p_user:uid,p_skor:Number(v),p_catatan:null});
+   if(r3.error){a.disabled=false;note('kqMsg',eMsg(r3.error));return}
+   var h=KQ.hasil.filter(function(x){return x.user_id===uid})[0];
+   if(h){h.skor=Number(v);h.manual=true}else KQ.hasil.push({user_id:uid,skor:Number(v),manual:true});
+   k.jumlah_hasil=KQ.hasil.length;kqRender();note('kqMsg','Skor disimpan.','ok');
+  }else if(act==='reset'&&k){
+   var row2=a.closest('.kqrow'),uid2=row2.dataset.u,p=KQ.prof[uid2]||{};
+   if(!await devConfirm('Reset skor?','Skor '+(p.nama||'peserta')+' akan dihapus dan peserta dapat mengerjakan ulang.','Ya, reset'))return;
+   var r4=await sb.from('kuis_hasil').delete().eq('kuis_id',k.id).eq('user_id',uid2);
+   if(r4.error){note('kqMsg',eMsg(r4.error));return}
+   KQ.hasil=KQ.hasil.filter(function(x){return x.user_id!==uid2});k.jumlah_hasil=KQ.hasil.length;kqRender();note('kqMsg','Skor direset.','ok');
+  }
+ });
+ root.addEventListener('submit',async function(e){
+  e.preventDefault();var f=e.target;
+  if(f.id==='kqForm'){
+   note('kqMsg','');
+   var judul=document.getElementById('kqJudul').value.trim(),soal=[],bad=null;
+   f.querySelectorAll('.kqs').forEach(function(fs,i){
+    var q=fs.querySelector('.kqp').value.trim(),opts=[],keyOld=null,idxMap=[];
+    fs.querySelectorAll('.kqo').forEach(function(lb,j){
+     var t=lb.querySelector('.kqt').value.trim(),rd=lb.querySelector('input[type=radio]');
+     if(t){idxMap.push(j);opts.push(t)}
+     if(rd.checked)keyOld=j;
+    });
+    if(!q||opts.length<2){bad='Soal '+(i+1)+': isi pertanyaan dan minimal 2 pilihan.';return}
+    if(keyOld==null||idxMap.indexOf(keyOld)<0){bad='Soal '+(i+1)+': tandai jawaban yang benar (pada pilihan yang terisi).';return}
+    soal.push({urutan:i+1,pertanyaan:q,pilihan:opts,kunci:idxMap.indexOf(keyOld)});
+   });
+   if(bad){note('kqMsg',bad);return}
+   var sbtn=f.querySelector('button[type=submit]');sbtn.disabled=true;
+   var r=await sb.from('kuis').insert({judul:judul,deskripsi:document.getElementById('kqDesk').value.trim()}).select('id').maybeSingle();
+   var nid=r.data&&(Array.isArray(r.data)?r.data[0]:r.data);nid=nid&&nid.id;
+   if(r.error||!nid){sbtn.disabled=false;note('kqMsg',eMsg(r.error)||'Kuis gagal dibuat.');return}
+   if(soal.length){
+    var rs=await sb.from('kuis_soal').insert(soal.map(function(s){return Object.assign({kuis_id:nid},s)}));
+    if(rs.error){await sb.from('kuis').delete().eq('id',nid);sbtn.disabled=false;note('kqMsg',eMsg(rs.error));return}
+   }
+   KQ.form=false;await kqLoad();note('kqMsg','Kuis diterbitkan.','ok');return;
+  }
+  if(f.id==='kqTake'){
+   var k=kqCur();if(!k)return;
+   var jawab={},kosong=0;
+   KQ.soal.forEach(function(s){var c=f.querySelector('input[name="q'+s.id+'"]:checked');if(c)jawab[s.id]=Number(c.value);else kosong++});
+   var tm=document.getElementById('kqTm');
+   if(kosong){tm.textContent='Jawab semua soal terlebih dahulu ('+kosong+' belum dijawab).';return}
+   var b=f.querySelector('button[type=submit]');b.disabled=true;tm.textContent='Mengirim…';
+   var res=await sb.rpc('kirim_kuis',{p_kuis:k.id,p_jawaban:jawab});
+   if(res.error){b.disabled=false;tm.textContent=eMsg(res.error);return}
+   await kqLoad();await kqOpen(k.id);
+  }
+ });
+ kqLoad();
+}
 /* ===== Ruang Diskusi (grup bergaya WhatsApp) ===== */
 var DS={msgs:[],key:''},DSC=['#F0C766','#8fd3ff','#b6f0a8','#ffb4c8','#d1b3ff','#ffc08a','#9ee6e0','#f5a3f0'];
 function dsColor(id){var h=0;id=String(id);for(var i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return DSC[h%DSC.length]}
@@ -10075,7 +10269,7 @@ function route(){
  if(POLL){clearInterval(POLL);POLL=null}
  var id=location.hash.slice(1)||'beranda',h=id==='beranda'?home():(authPage(id)||inner(id));
  if(!h){id='beranda';h=home()}
- app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);bindPresensi(id);bindPresensiKampus(id);bindTugas(id);bindRefleksi(id);bindCurhat(id);bindDiskusi(id);bindModul(id);
+ app.innerHTML=h;initCarousels();bindAuth(id);bindDoc(id);bindVisual(id);bindPeta(id);bindPresensi(id);bindPresensiKampus(id);bindTugas(id);bindRefleksi(id);bindCurhat(id);bindDiskusi(id);bindKuis(id);bindModul(id);
  var act=-1,aid=id.indexOf('presensi-')===0?'presensi':id;
  MENU.forEach(function(m,i){if(m.id===aid||(m.sub&&m.sub.some(function(s){return s[1]===aid})))act=i});
  menu.querySelectorAll('li[data-i]').forEach(function(li){li.classList.toggle('on',+li.dataset.i===act)});
